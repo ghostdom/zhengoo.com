@@ -1,0 +1,10 @@
+*.swp
+*.D*
+application/logs/*.log
+application/config/database.php
+application/config/config.php
+
+.buildpath
+.project
+.settings
+
