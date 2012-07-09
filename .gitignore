@@ -1,5 +1,5 @@
 *.swp
 *.D*
-app/logs/*.log
+web.zhengoo.com/app/logs/*.log
 
 
