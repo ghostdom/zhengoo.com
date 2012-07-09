@@ -79,8 +79,8 @@ class Authorize extends ZG_Controller {
 	{
 		$this->load->library('oauth2');
 		$pocket = $this->oauth2->provider('pocket');
-		$result = $pocket->update_page_tag('tceisk9584', 'tceisk9584', array('http://www.google.com' => '河南,郑州', 'http://www.twitter.com' => '浙江,杭州'));
-		$this->_logger->info($result);
+		// $result = $pocket->update_page_tag('tceisk9584', 'tceisk9584', array('http://www.google.com' => '河南,郑州', 'http://www.twitter.com' => '浙江,杭州'));
+		// $this->_logger->info($result);
 	}
 
 	// --------------------------------------------------------------------
