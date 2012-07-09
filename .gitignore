@@ -1,10 +1,5 @@
 *.swp
 *.D*
-application/logs/*.log
-application/config/database.php
-application/config/config.php
+app/logs/*.log
 
-.buildpath
-.project
-.settings
 
