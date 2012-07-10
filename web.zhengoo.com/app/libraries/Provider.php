@@ -258,7 +258,7 @@ abstract class OAuth2_Provider
 					$response = $this->_ci->curl->simple_post($this->api_url, $params); 
 				break;
 		}
-		$this->_ci->curl->debug();
+		// $this->_ci->curl->debug();
 		// var_dump($response);
 		
 		return json_decode($response, true);

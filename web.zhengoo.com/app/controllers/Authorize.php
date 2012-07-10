@@ -63,7 +63,7 @@ class Authorize extends ZG_Controller {
         	try {
 	    		$token = $taobao->access($this->input->get('code'));
 	    		$taobao->access_token = $token['access_token'];
-	    		$result = $taobao->get_item(17766056045);
+	    		$result = $taobao->get_user('zyhy0703');
 	   			 $this->_logger->info($result);
         	} catch (OAuth2_Exception $e) {
         		echo '请重新授权淘宝账号';
@@ -88,9 +88,9 @@ class Authorize extends ZG_Controller {
 	public function show(){
 		$this->load->library('oauth2');
 		$taobao = $this->oauth2->provider('taobao');
+		// $result = $taobao->get_user(array('zyhy0703','tceisk9584'));
+		$result = $taobao->get_shopcats();
 
-
-		$result = $taobao->get_item(17766056045);
 	    $this->_logger->info($result);
 	}
 }
