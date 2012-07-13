@@ -177,6 +177,7 @@ abstract class OAuth2_Provider
 			'client_id' 	=> $this->client_id,
 			'client_secret' => $this->client_secret,
 			'grant_type' 	=> isset($options['grant_type']) ? $options['grant_type'] : 'authorization_code',
+			'scope'			=> isset($options['scope']) ? $options['scope'] : '',
 		);
 
 		switch ($params['grant_type'])
@@ -184,6 +185,11 @@ abstract class OAuth2_Provider
 			case 'authorization_code':
 				$params['code'] = $code;
 				$params['redirect_uri'] = isset($options['redirect_uri']) ? $options['redirect_uri'] : $this->redirect_uri;
+			break;
+
+			case 'password':
+				$params['username'] = $this->user_name;
+				$params['password'] = $this->password;
 			break;
 
 			case 'refresh_token':

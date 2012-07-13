@@ -62,6 +62,7 @@ $route['admin/login'] = 'admin/index/login';
 $route['weibo']      = 'authorize/weibo';
 $route['taobao']	 = 'authorize/taobao';
 $route['pocket']	 = 'authorize/pocket';
+$route['diandian']	 = 'authorize/diandian';
 
 $route['app/(:any)'] = 'app/category/$1';
 

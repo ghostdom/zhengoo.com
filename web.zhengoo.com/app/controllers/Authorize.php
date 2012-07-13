@@ -62,9 +62,10 @@ class Authorize extends ZG_Controller {
         }else{
         	try {
 	    		$token = $taobao->access($this->input->get('code'));
-	    		$taobao->access_token = $token['access_token'];
-	    		$result = $taobao->get_user('zyhy0703');
-	   			 $this->_logger->info($result);
+	    		var_dump($token);
+	    		//$taobao->access_token = $token['access_token'];
+	    		//$result = $taobao->get_user('zyhy0703');
+	   			 //$this->_logger->info($result);
         	} catch (OAuth2_Exception $e) {
         		echo '请重新授权淘宝账号';
         	}
@@ -85,12 +86,37 @@ class Authorize extends ZG_Controller {
 
 	// --------------------------------------------------------------------
 
+	public function diandian() 
+	{
+		$this->load->library('oauth2');
+		$DD = $this->oauth2->provider('diandian');
+	  	if (!$this->input->get('code')) {
+            $DD->authorize();
+        }else{
+        	try {
+	    		$token = $DD->access($this->input->get('code'));
+	    		var_dump($token);
+	    		// $taobao->access_token = $token['access_token'];
+	    		// $result = $taobao->get_user('zyhy0703');
+	   			//  $this->_logger->info($result);
+        	} catch (OAuth2_Exception $e) {
+        		echo '请重新授权点点账号';
+        	}
+        	
+        }
+	}
+
+	// --------------------------------------------------------------------
+
 	public function show(){
 		$this->load->library('oauth2');
 		$taobao = $this->oauth2->provider('taobao');
+		$DD = $this->oauth2->provider('diandian');
 		// $result = $taobao->get_user(array('zyhy0703','tceisk9584'));
-		$result = $taobao->get_shopcats();
-
+		// $result = $taobao->get_shopcats();
+		$DD->page_count  = 2;
+		$result = $DD->get_tag_post('影像笔记');
+		// var_dump($result);
 	    $this->_logger->info($result);
 	}
 }
