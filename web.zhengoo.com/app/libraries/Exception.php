@@ -51,7 +51,8 @@ class OAuth2_Exception extends Exception {
 	 */
 	public function __toString()
 	{
-		$str = $this->getType() . ': ';
+		// $str = $this->getType() . ': ';
+		$str =  ':';
 		if ($this->code != 0)
 		{
 			$str .= $this->code . ': ';

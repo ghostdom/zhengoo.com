@@ -39,7 +39,7 @@
  */
 if ( ! function_exists('lib_url'))
 {
-	function lib_url($uri = '')
+	function lib_url()
 	{
 		$CI =& get_instance();
 		return $CI->config->slash_item('lib_url');

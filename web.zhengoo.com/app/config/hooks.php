@@ -11,6 +11,19 @@
 */
 
 
+$hook['post_controller_constructor'] = array(
+                                'class'    => '',
+                                'function' => 'check_session_user',
+                                'filename' => 'zg_hooks.php',
+                                'filepath' => 'hooks',
+                                'params'   => array(
+                               			'authorize/auth/',
+                               			'main/welcome/',
+                               			'user/login/',
+                               			'user/signup/',
+                               			'user/home/',
+                                	)
+                                );
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

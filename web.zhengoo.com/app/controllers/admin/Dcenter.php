@@ -33,7 +33,7 @@ class Dcenter extends ZG_Admin_Controller {
 	 * @return void
 	 */
 	function main() {
-		$this->load->view('dcenter/dcenter_main');
+		$this->load->view('admin/dcenter/dcenter_main');
 	}
 
 	// --------------------------------------------------------------------
@@ -52,10 +52,9 @@ class Dcenter extends ZG_Admin_Controller {
 			'dcenter_category_id'    => $category_id,
 			'dcenter_category_alias' => $category_alias,
 			'dcenter_category_name'  => $this->input->get('category_name')
-
 		);
 		$this->dcenter->add($dcenter);
-		$this->apple();
+		redirect('/admin/dcenter/apple');
 	}
 
 	// --------------------------------------------------------------------
@@ -95,7 +94,7 @@ class Dcenter extends ZG_Admin_Controller {
 		$this->load->library('appstore');
 		$this->load->model('app_model', 'app');
 		$dcenter_id = $this->input->get('dcenter_id');
-		$category_alias = $this->input->get('category_alias');
+		$category_alias = $this->input->get('category_alias');;
 		if($dcenter_id){
 			$dcenter = array_shift($this->dcenter->find_by_id($dcenter_id));
 			if($dcenter['dcenter_status'] == DCENTER_STATUS_STOP){

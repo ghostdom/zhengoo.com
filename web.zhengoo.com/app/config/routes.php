@@ -38,8 +38,8 @@
 |
 */
 
-$route['default_controller'] = "index/home";
-$route['404_override'] = '';
+$route['default_controller'] = "main/welcome";
+$route['404_override']       = '';
 
 
 /*
@@ -49,8 +49,8 @@ $route['404_override'] = '';
  |
  */
 
-$route['admin']       = 'admin/index/login';
-$route['admin/login'] = 'admin/index/login';
+$route[ADMIN_PATH]                   = 'admin/index/login';
+$route[ADMIN_PATH.'/(login|logout)'] = 'admin/index/$1';
 
 /*
  | -------------------------------------------------------------------------
@@ -58,13 +58,13 @@ $route['admin/login'] = 'admin/index/login';
  | -------------------------------------------------------------------------
  |
  */
+$route['(login|signup|logout)']          = 'user/$1'; 					
+$route['(weibo|taobao|pocket|diandian)'] = 'authorize/auth/$1';
 
-$route['weibo']      = 'authorize/weibo';
-$route['taobao']	 = 'authorize/taobao';
-$route['pocket']	 = 'authorize/pocket';
-$route['diandian']	 = 'authorize/diandian';
+$route['list/(:any)']                    =	'lists/$1';
+$route['app/(:any)']                     = 'app/category/$1';
 
-$route['app/(:any)'] = 'app/category/$1';
-
+$route['(:any)']                         = '/user/home/$1';
+$route['(:any)/(:any)']                  = 'lists/collect_list/$1/$2';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

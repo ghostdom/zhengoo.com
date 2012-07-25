@@ -193,11 +193,218 @@ div#left > div, #right > div {
 }
 
 
+div#sidebar 
+{
+	padding-top: 22px;
+	width: 180px;
+	margin-right: -20px;
+}
+
+div#sidebar ul#lists li 
+{
+	position: relative;
+	margin:10px;
+}
+
+div#feed 
+{
+	margin-left:25px;
+	min-height: 420px;
+padding-bottom: 20px;
+position: relative;
+}
+
+#feed h1
+{
+	border-bottom: 1px solid #DDD;
+	padding: 20px 30px 15px;
+	margin-bottom: 0;
+	font-weight: normal;
+}
+
+#feed ul.feed-list 
+{
+	margin: 0;
+	padding: 0;
+	background: white;
+}
+
+#feed ul.feed-list li {
+	position: relative;
+	padding: 20px 30px;
+	list-style: none;
+	border-bottom: 1px solid #EEE;
+}
+
+#feed ul.feed-list li:last-child {
+border-bottom: none;
+}
+
+#feed ul.feed-list li img {
+	float: left;
+	height: 42px;
+	width: 42px;
+}
+
+#feed ul.feed-list li .feed-event {
+	margin-left: 60px;
+	margin-bottom: 5px;
+	color: #777;
+}
 
 
 
+#feed ul.feed-list li .feed-event a {
+	color: #444;
+	font-weight: normal;
+}
+
+#feed ul.feed-list li .timestamp {
+float: right;
+font-size: 11px;
+}
+
+#feed ul.feed-list li .feed-content {
+margin-left: 60px;
+padding: 2px 0 0;
+}
 
 
+#feed ul.feed-list li .feed-title {
+display: block;
+margin-bottom: 3px;
+font-size: 15px;
+color: #DD390D;
+}
 
+#feed ul.feed-list li .notes {
+margin-top: 12px;
+font-size: 14px;
+}
+
+#feed ul.feed-list li .notes a {
+font-weight: normal;
+}
+
+#feed ul.feed-list li .notes * {
+color: #111;
+}
+
+#feed ul.feed-list li .notes .content {
+padding: 0 0 0 24px;
+line-height: 20px;
+overflow: hidden;
+background: url('../images/clip-note.png') -12px 2px no-repeat;
+}
+
+#feed ul.feed-list li .feed-actions {
+font-size: 12px;
+margin-top: 10px;
+color: #777;
+}
+
+#feed ul.feed-list li .feed-actions span{
+margin: 0 8px 0 0px;
+}
+
+#feed ul.feed-list li .feed-comments {
+margin-left: 60px;
+padding-top: 5px;
+border-top: 0;
+background: #F8F8F8;
+position: relative;
+display: block;
+margin-top: 12px;
+}
+
+#feed ul.feed-list li .feed-comments .all-comments {
+display: block;
+padding: 3px 10px 5px 10px;
+border-bottom: 2px solid white;
+}
+
+#feed ul.feed-list li .feed-comments ul {
+margin: 0;
+}
+
+#feed ul.feed-list li .feed-comments li {
+padding: 6px 10px;
+list-style: none;
+min-height: 24px;
+font-size: 12px;
+border-bottom: 2px solid white;
+}
+
+#feed ul.feed-list li .feed-comments .body {
+margin-left: 34px;
+margin-top: -2px;
+margin-bottom: 0;
+}
+
+#feed ul.feed-list li .feed-comments .body .body-text {
+margin-right: 100px;
+}
+
+#feed ul.feed-list li .feed-comments a {
+font-weight: bold;
+color: #111;
+}
+
+
+#feed ul.feed-list li .feed-comments .reply {
+padding: 12px 10px 10px;
+}
+
+#feed ul.feed-list li .feed-comments .reply form {
+margin: 0;
+}
+
+#feed ul.feed-list li .feed-comments .reply img {
+margin-top: -4px;
+}
+
+#feed ul.feed-list li .feed-comments .reply form input {
+width: 500px;
+padding: 2px 5px;
+font-size: 12px;
+margin-top: -3px;
+}
+
+#feed ul.feed-list li .feed-comments input {
+margin-left: 10px;
+}
+
+#feed ul.feed-list li .feed-comments .avatar {
+float: left;
+height: 24px;
+width: 24px;
+}
+
+
+#feed .load-more {
+display: none;
+border-top: 1px solid #DDD;
+border-bottom: 1px solid #DDD;
+background-color: #FAFAFA;
+background-image: -moz-linear-gradient(white, #FAFAFA);
+background-image: -o-linear-gradient(white, #FAFAFA);
+background-image: -ms-linear-gradient(white, #FAFAFA);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #FAFAFA));
+background-image: -webkit-linear-gradient(white, #FAFAFA);
+}
+
+#feed .load-more a, #feed .load-more span {
+display: block;
+padding: 10px 40px 10px 20px;
+text-align: center;
+color: #444;
+margin: 0 auto;
+}
+
+#feed .load-more .loading-feed {
+display: none;
+font-weight: bold;
+color: #888;
+}
 
 

@@ -101,7 +101,7 @@ class ZG_AppStore {
 	 */
 	public function getAppsByLetterAndPage($url, $letter, $page){
 		$url = $url . '?mt=8&letter=' . $letter . '&page=' . $page;
-		$this->logger->debug("AppStore 地址: ". $url);
+		$this->_logger->debug("AppStore 地址: ". $url);
 		return $this->_get_appstore_list($url);
 	}
 

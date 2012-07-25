@@ -19,11 +19,6 @@ define('POST_STATE_PUBLISHED', 	'published'); 	// 博文发布状态: 发布
 define('POST_STATE_DRAFT', 		'draft'); 		// 博文发布状态: 草稿
 define('POST_STATE_QUEUE',  	'queue'); 		// 博文发布状态: 队列
 
-
-
-
-
-
 class OAuth2_Provider_DianDian extends OAuth2_Provider 
 {
 
@@ -39,6 +34,11 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 	 * @var   return data
 	 */
 	public $format = 'json';
+
+	/**
+	 *
+	 */
+	public $scope = 'read,write';
 
 	// --------------------------------------------------------------------
 
@@ -88,11 +88,11 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 	private function _app_access_token()
 	{
 		// $this->method = 'GET';
-		$param = array(
+		$option = array(
 			'grant_type' => 'client_credentials',
 			'scope'      => 'read,write'
 			);
-		$token  = $this->access('', $param);
+		$token  = $this->access('', $option);
 		return isset($token['access_token']) ? $token['access_token'] : '';
 	}
 
@@ -105,11 +105,11 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 	 */
 	private function _password_access_token()
 	{
-		$param = array(
+		$option = array(
 			'grant_type' => 'password',
 			'scope'      => 'read,write'
 			);
-		$token  = $this->access('', $param);
+		$token  = $this->access('', $option);
 		return isset($token['access_token']) ? $token['access_token'] : '';
 	}
 
@@ -298,22 +298,65 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 	// = ========== 动态接口 ========== =
 	// ================================
 
-	// --------------------------------------------------------------------
-	public function get_home_post()
+	/**
+	 * -----------------------------
+	 * 构建获取博文请求
+	 * - 获取个人首页博文动态
+	 * - 获取标签博文动态
+ 	 * -----------------------------
+ 	 *
+ 	 * @param method 	api方法
+ 	 * @param page 		页码
+ 	 * @param since_id  如果有此Id，page将失效。
+ 	 * @param is_reblog 是否装载转载信息
+ 	 * @return array    博文信息集合
+	 */
+	private function _build_posts($method, $page, $since_id, $is_reblog)
 	{
+		$params = $this->_req_before($method);
+		$params['offset']     = ($page - 1);
+		$params['limit']      = $this->page_count;
+		$params['reblogInfo'] = $is_reblog;
+		if($since_id != 0) $params['sinceId'] = $since_id;
+		return $this->get($params);
+	}
 
+	// --------------------------------------------------------------------
+	
+	/**
+	 * -----------------------------
+	 * 获取个人首页博文动态
+ 	 * -----------------------------
+ 	 *
+ 	 * @link http://doc.diandian.com/api/home/
+ 	 * @param page 		页码
+ 	 * @param since_id  如果有此Id，page将失效。
+ 	 * @param is_reblog 是否装载转载信息
+ 	 * @return array    个人主页博文信息集合
+	 */
+	public function get_home_post($page = 1, $since_id = 0, $is_reblog = false)
+	{
+		// $params = $this->_req_before('user/home');
+		return $this->_build_posts('user/home', $page, $is_reblog, $since_id);
 	}
 
 	// --------------------------------------------------------------------
 
-	public function get_tag_post($tag, $page = 1, $since_id = 0)
+	/**
+	 * -----------------------------
+	 * 获取标签博文动态
+ 	 * -----------------------------
+ 	 *
+ 	 * @link http://doc.diandian.com/api/tagposts/
+ 	 * @param tag 		标签
+ 	 * @param page 		页码
+ 	 * @param since_id  如果有此Id，page将失效。
+ 	 * @param is_reblog 是否装载转载信息
+ 	 * @return array    个人主页博文信息集合
+	 */
+	public function get_tag_post($tag, $page = 1, $since_id = 0, $is_reblog = false)
 	{
-		$params= $this->_req_before('tag/posts/'.$tag);
-		$params['offset'] = ($page - 1);
-		$params['limit'] = $this->page_count;
-		$params['reblogInfo'] = true;
-		if($since_id != 0) $params['sinceId'] = $since_id;
-		return $this->get($params);
+		return $this->_build_posts('tag/posts/'.$tag, $page, $is_reblog, $since_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -497,7 +540,7 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
  	 * 
  	 * @return array 	指定文章信息集合	
 	 */
-	public function _build_post_param($domain, $type, $state, $tag, $slug, $markdown)
+	public function _build_create_post($domain, $type, $state, $tag, $slug, $markdown)
 	{
 		$url                = '/blog/' . $domain . '/post';
 		$params             = $this->_req_before($url);
@@ -513,7 +556,7 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 
 	public function publish_text($domain, $title = '', $body = '', $tag = NULL, $slug = NULL, $state = POST_STATE_PUBLISHED,  $markdown = false)
 	{
-		$params = $this->_build_post_param($domain, BLOG_POST_TYPE_TEXT, $state, $tag, $slug, $markdown);
+		$params = $this->_build_create_post($domain, BLOG_POST_TYPE_TEXT, $state, $tag, $slug, $markdown);
 		if(!empty($title) || !empty($body)){
 			$params['title'] = $title;
 			$params['body'] = $body;
@@ -527,12 +570,163 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 
 	public function publish_photo($domain, $img, $caption = '', $tag = NULL, $slug = NULL, $state = POST_STATE_PUBLISHED,  $markdown = false)
 	{
-		$params = $this->_build_post_param($domain, BLOG_POST_TYPE_TEXT, $state, $tag, $slug, $markdown);
+		$params = $this->_build_create_post($domain, BLOG_POST_TYPE_TEXT, $state, $tag, $slug, $markdown);
 		$params['caption'] = $caption;
 		$params['data'] = $img;
 	}
 
 	// --------------------------------------------------------------------
 
+
+	// --------------------------------------------------------------------
+	// ================================
+	// = ========== 喜欢接口 ========== =
+	// ================================
+
+	/**
+	 * -----------------------------
+	 * 处理用户喜欢或取消喜欢操作
+ 	 * -----------------------------
+ 	 * 
+ 	 * @param method 	api方法
+ 	 * @param post_id 	博文id
+ 	 * @return array 	操作成功或错误信息	
+	 */
+	private function _like($method, $post_id)
+	{
+		$params = $this->_req_before($method);
+		$params['id'] = $post_id;
+		return $this->post($params);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * -----------------------------
+	 * 喜欢一篇博文
+ 	 * -----------------------------
+ 	 * 
+ 	 * @link http://doc.diandian.com/api/like/
+ 	 * @param post_id 	博文id
+ 	 * @return array 	操作成功或错误信息	
+	 */
+	public function like($post_id)
+	{
+		return $this->_like('user/like', $post_id);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * -----------------------------
+	 * 取消喜欢一篇博文
+ 	 * -----------------------------
+ 	 * 
+ 	 * @link http://doc.diandian.com/api/unlike/
+ 	 * @param post_id 	博文id
+ 	 * @return array 	操作成功或错误信息	
+	 */
+	public function unlike($post_id)
+	{
+		return $this->_like('user/unlike', $post_id);
+	}
+
+	// --------------------------------------------------------------------
+	// ================================
+	// = ========== 关注接口 ========== =
+	// ================================
+
+	/**
+	 * -----------------------------
+	 * 处理用户关注或取消关注操作
+ 	 * -----------------------------
+ 	 * 
+ 	 * @param method 	api方法
+ 	 * @param post_id 	博客cname
+ 	 * @return array 	操作成功或错误信息	
+	 */
+	private function _follow($method, $blog_cname)
+	{
+		$params = $this->_req_before($method);
+		$params['blogCName'] = $blog_cname;
+		return $this->post($params);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * -----------------------------
+	 * 关注一个博客
+ 	 * -----------------------------
+ 	 * 
+ 	 * @link http://doc.diandian.com/api/follow/
+ 	 * @param blog_cname 	博客cname
+ 	 * @return array 		操作成功或错误信息	
+	 */
+	public function follow($blog_cname)
+	{
+		return $this->_follow('user/follow', $blog_cname);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * -----------------------------
+	 * 取消关注一个博客
+ 	 * -----------------------------
+ 	 * 
+ 	 * @link http://doc.diandian.com/api/unfollow/
+ 	 * @param blog_cname 	博客cname
+ 	 * @return array 		操作成功或错误信息	
+	 */
+	public function unfollow($blog_cname)
+	{
+		return $this->_follow('user/unfollow', $blog_cname);
+	}
+
+	// --------------------------------------------------------------------
+	// ================================
+	// = ========== 标签接口 ========== =
+	// ================================	
+
+	private function _tag($method)
+	{
+		$params = $this->_req_before($method);
+		return $this->post($params);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * -----------------------------
+	 * 订阅一个标签
+ 	 * -----------------------------
+ 	 * 
+ 	 * @link http://doc.diandian.com/api/watchtag/
+ 	 * @param blog_cname 	博客cname
+ 	 * @return array 		操作成功或错误信息	
+	 */
+	public function tag_watch($tag)
+	{
+		$method = 'tag/watch/'.$tag;
+		return $this->_tag($method);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * -----------------------------
+	 * 取消订阅一个标签
+ 	 * -----------------------------
+ 	 * 
+ 	 * @link http://doc.diandian.com/api/unwatchtag/
+ 	 * @param blog_cname 	博客cname
+ 	 * @return array 		操作成功或错误信息	
+	 */
+	public function tag_unwatch()
+	{
+		$method = 'tag/unwatch/'.$tag;
+		return $this->_tag($method);
+	}
 
 }

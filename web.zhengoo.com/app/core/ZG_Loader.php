@@ -31,9 +31,9 @@ class ZG_Loader extends CI_Loader {
 	 * 
 	 * ----------------------------
 	 */
-	function theme_on() {
+	function theme_on($theme) {
 		$CI =& get_instance();
-		$this->_ci_view_paths = array(APPPATH . 'views' . DIRECTORY_SEPARATOR . $CI->config->item('theme') . DIRECTORY_SEPARATOR => TRUE);
+		$this->_ci_view_paths = array(APPPATH . 'views' . DIRECTORY_SEPARATOR . $theme . DIRECTORY_SEPARATOR => TRUE);
 	}
 
 	// --------------------------------------------------------------------

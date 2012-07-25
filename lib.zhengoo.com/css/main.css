@@ -123,7 +123,7 @@ select[multiple] { border: 1px solid #ddd; box-shadow: 0 0 0 2px #f4f4f4; -webki
 .loginPage #footer .wrapper { padding-left: 0; }
 .loginPage .formRow { padding: 18px 14px; }
 
-.loginWrapper { margin: -119px 0 0 -170px; position: absolute; top: 50%; left: 50%; }
+.loginWrapper { margin: -119px 0 0 -170px; position: absolute; top: 40%; left: 50%; }
 .loginWrapper .widget { width: 340px; background: #f9f9f9; border: 1px solid #cdcdcd; display: block; height: 236px; }
 .loginLogo { position: absolute; width: 236px; height: 60px; display: block; top: -55px; left: 50%; margin-left: -118px; } 
 .loginControl { border-top: 1px solid #fff; padding: 16px 14px; }

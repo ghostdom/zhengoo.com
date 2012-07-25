@@ -29,10 +29,10 @@
     <div class="wrapper">
         <div class="userNav">
             <ul>
-<!--            <li><a href="#" title=""><img src="<?=lib_url()?>images/icons/topnav/mainWebsite.png" alt="" /><span>Main website</span></a></li>
+          <li><a href="#" title=""><img src="<?=lib_url()?>images/icons/topnav/mainWebsite.png" alt="" /><span>Main website</span></a></li>
                 <li><a href="#" title=""><img src="<?=lib_url()?>images/icons/topnav/profile.png" alt="" /><span>Contact admin</span></a></li>
                 <li><a href="#" title=""><img src="<?=lib_url()?>images/icons/topnav/messages.png" alt="" /><span>Support</span></a></li>
-                <li><a href="login.html" title=""><img src="<?=lib_url()?>images/icons/topnav/settings.png" alt="" /><span>Settings</span></a></li> -->
+                <li><a href="login.html" title=""><img src="<?=lib_url()?>images/icons/topnav/settings.png" alt="" /><span>Settings</span></a></li>
             </ul>
         </div>
         <div class="clear"></div>
@@ -48,13 +48,13 @@
             <fieldset>
                 <div class="formRow">
                     <label for="login">登录名:</label>
-                    <div class="loginInput"><input type="text" name="login" class="validate[required]" id="login" /></div>
+                    <div class="loginInput"><input type="text" name="user_login_name" class="validate[required]" id="login" /></div>
                     <div class="clear"></div>
                 </div>
                 
                 <div class="formRow">
                     <label for="pass">密码:</label>
-                    <div class="loginInput"><input type="password" name="password" class="validate[required]" id="pass" /></div>
+                    <div class="loginInput"><input type="password" name="user_passwd" class="validate[required]" id="pass" /></div>
                     <div class="clear"></div>
                 </div>
                 

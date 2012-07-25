@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url'] = 'http://app.zhengoo.com';
-$config['lib_url']  = 'http://lib.zhengoo.com';
+$config['base_url']   = 'http://app.zhengoo.com';
+$config['lib_url']    = 'http://lib.zhengoo.com';
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -91,7 +91,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 
 /*

@@ -36,7 +36,43 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
-define('DEFAULT_PAGE_NUM', 25);
+define('DEFAULT_PAGE_NUM', 						25);
+
+define('ADMIN_PATH', 							'admin');
+
+/*
+|--------------------------------------------------------------------------
+| user type
+|--------------------------------------------------------------------------
+|
+| 
+*/
+define('USER_TYPE_CLIENT', 0);				// 用户类型: 普通用户
+define('USER_TYPE_ADMIN',  1);				// 用户类型: 管理员
+
+/*
+|--------------------------------------------------------------------------
+| message type
+|--------------------------------------------------------------------------
+|
+| 
+*/
+define('MESSAGE_TYPE_SUCCESS', 	'message_type_success');
+define('MESSAGE_TYPE_INFO', 	'message_type_info');
+define('MESSAGE_TYPE_WARN', 	'message_type_warn');
+define('MESSAGE_TYPE_ERROR', 	'message_type_error');
+
+/*
+|--------------------------------------------------------------------------
+| 常用session值,key
+|--------------------------------------------------------------------------
+|
+| 
+*/
+define('SESSION_ADMIN', 'session_admin'); 		// 后台用户 session key 
+define('SESSION_USER', 	'session_user');		// 前台用户 session key
+define('SESSION_AUTH', 	'session_auth'); 		// 第三方授权信息 session key
+
 /*
 |--------------------------------------------------------------------------
 | App设备常量
@@ -62,5 +98,19 @@ define('PIN_SOURCE_BROWSER', 					3);			//浏览器插件
 define('PIN_SOURCE_REPRODUCED', 				4);			//网络转载
 define('PIN_SOURCE_IPHONE', 					5);			//iphone
 define('PIN_SOURCE_ANDROID', 					6);			//android
+
+/*
+|--------------------------------------------------------------------------
+| 第三方接入平台
+|--------------------------------------------------------------------------
+|
+| 
+*/
+define('AUTH_SOURCE_WEIBO', 	1); // 第三方平台: 新浪微博
+define('AUTH_SOURCE_DIANDIAN', 	2); // 第三方平台: 点点
+define('AUTH_SOURCE_RENREN', 	3); // 第三方平台: 人人网
+define('AUTH_SOURCE_POCKET', 	4); // 第三方平台: Pocket
+define('AUTH_SOURCE_TAOBAO', 	5); // 第三方平台: 淘宝网
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

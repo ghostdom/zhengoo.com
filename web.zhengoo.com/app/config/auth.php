@@ -61,6 +61,8 @@ $config['pocket_app_key']    = '6e3gfu1ap0Z02t9347T6182Q13A6p75d';
 | 
 | - diandian_app_key 
 | - diandian_app_secret
+| - diandian_user_name
+| - diandian_user_password
 */
 $config['diandian_app_key']    	= 'fEBLp5935A';
 $config['diandian_app_secret']	= '91SMNdo8hTjubZda935YmnWc00qQ47HGnlt9';
@@ -68,3 +70,54 @@ $config['diandian_user_name']   = 'ghostdom.wj@gmail.com';
 $config['diandian_password']    = 'wujun123';
 
 // --------------------------------------------------------------------
+
+/*
+| -------------------------------------------------------------------
+| 500px App相关配置
+| -------------------------------------------------------------------
+| 
+| - 500px_app_key 
+| - 500px_app_secret
+*/
+$config['500px_app_key']    	= 'bF3ZmX2snwPDj4oPyxXlxZESEc1plz10xMfuO5hB';
+$config['500px_app_secret']		= 'LXuUjh4yDpv1vsvQOZac9MH5i9hVcGDJf2h0xoOW';
+// $config['500px_user_name']   = 'ghostdom.wj@gmail.com';
+// $config['500px_password']    = 'wujun123';
+
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+
+
+
+/*
+| -------------------------------------------------------------------
+| 针对每一个开放平台对应换取 access_token 不同的参数, 以下配置对应相应的 
+| -------------------------------------------------------------------
+| 
+| - 新浪微博 
+| - 淘宝
+| - 点点
+*/
+
+$config['weibo_auth'] 	= array(
+	'access_token' => 'auth_access_token',
+	'expires_in'   => 'auth_expired_time',
+	'uid'          => 'auth_user'
+);
+
+$config['taobao_auth'] 	= array(
+	'access_token'   => 'auth_access_token',
+	'expires_in'     => 'auth_expired_time',
+	'taobao_user_id' => 'auth_user',
+	'refresh_token'  => 'auth_refresh_token'
+);
+
+$config['diandian_auth'] = array(
+	'access_token'  => 'auth_access_token',
+	'refresh_token' => 'auth_refresh_token',
+	'expires_in'    => 'auth_expired_time',
+	'uid'           => 'auth_user'
+);
+
+

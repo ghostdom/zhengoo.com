@@ -12,9 +12,10 @@
 class App extends ZG_Controller {
 
 	/**
-	 *---------------------------
-	 * 构造方法
-	 *---------------------------
+	 * ---------------------------
+	 * - 加载 App 和 分类 模型
+	 * - 获取所有分类
+	 * ---------------------------
 	 *
 	 * @return void
 	 */
@@ -27,12 +28,29 @@ class App extends ZG_Controller {
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * -----------------------------
+	 * App 首页
+	 * -----------------------------
+	 * 
+	 * @link 
+	 * @return void
+	 */
 	function index() {
 		$this->load->view('app/app_list', $this->data);
 	}
 
 	// --------------------------------------------------------------------
 
+	/**
+	 * -----------------------------
+	 * 根据分类别名获取 App
+	 * -----------------------------
+	 * 
+	 * @link 
+	 * @param category_alias 分类别名
+	 * @return void
+	 */
 	function category($category_alias){
 		$cur_category               = array_shift($this->category->find_by_alias($category_alias));
 		$category_id                = $cur_category['category_id'];
@@ -42,5 +60,7 @@ class App extends ZG_Controller {
 		$this->data['apps']         = $this->app->find_where($params);
 		$this->load->view('app/app_list', $this->data);
 	}
+
+	// --------------------------------------------------------------------
 
 }

@@ -20,8 +20,29 @@
           	<input type="text" class="search-query span2" placeholder="搜索应用"/>
       	</form>
       	<ul class="nav pull-right">
-            <li><a href="#">登录</a></li>
-            <!-- <li class="divider-vertical"></li> -->
+
+            <?php 
+              if(isset($sess_user)){
+            ?>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= $sess_user['user_login_name']?> <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">配置</a> </li>
+                  <li class="divider"></li>
+                  <li><a href="#">配置</a> </li>
+                  <li><a href="logout">退出</a> </li>
+                </ul>
+              </li>
+            <?php
+              }else{
+            ?>  
+              <li><a href="/login">登录</a></li>
+              <!-- <li class="divider-vertical"></li> -->
+              <li><a href="/signup">注册</a></li>
+            <?php 
+              }
+            ?>
+           
         	</ul>
       </div>
     </div>

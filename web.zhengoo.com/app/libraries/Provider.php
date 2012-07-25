@@ -98,7 +98,7 @@ abstract class OAuth2_Provider
 			$this->name = strtolower(substr(get_class($this), strlen('OAuth2_Provider_')));
 		}
 
-		$this->_ci->load->config('sns');
+		$this->_ci->load->config('auth');
 		$this->client_id     = $this->_ci->config->item($this->name . '_app_key');
 		$this->client_secret = $this->_ci->config->item($this->name . '_app_secret');;
 		$this->user_name     = $this->_ci->config->item($this->name . '_user_name');
@@ -220,7 +220,7 @@ abstract class OAuth2_Provider
 					->post($params, array('failonerror' => false));
 
 				$response = $this->_ci->curl->execute();
-				//echo $response;
+				// echo $response;
 				$return = json_decode($response,true);
 			break;
 

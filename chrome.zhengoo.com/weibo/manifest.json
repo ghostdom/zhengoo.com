@@ -1,0 +1,10 @@
+{  
+  "name": "Chrome Weibo",  
+  "version": "0.0.1",  
+  "description": "chrome weibo",  
+  "browser_action": {  
+    // "default_icon": "icon.png" ,
+    "default_title": "weibo",
+    "default_popup": "popup.html"
+  }  
+} 

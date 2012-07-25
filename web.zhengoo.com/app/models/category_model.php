@@ -31,5 +31,4 @@ define('CATEGORY_STATUS_SHOW', 		0);		/* 表示分类状态：显示 */
 define('CATEGORY_STATUS_HIDE', 		1);		/* 表示分类状态：隐藏 */
 class Category_Model extends ZG_Model {
 	
-	
 }

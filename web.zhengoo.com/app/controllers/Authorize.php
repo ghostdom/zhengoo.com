@@ -27,96 +27,82 @@
 
 class Authorize extends ZG_Controller {
 
+	/**
+	 * ---------------------------
+	 * 
+	 * ---------------------------
+	 *
+	 * @return void
+	 */
+	function __construct() {
+		parent::__construct();
+		$this->load->model('auth_model', 'auth');
+	}
+
+
 	// --------------------------------------------------------------------
 
-	public function weibo() 
+	/**
+	 * -------------------------------
+	 * 第三方授权登陆
+	 * - 支持 新浪微博
+	 * - 支持 点点网
+	 * - 支持 淘宝网 
+	 * -------------------------------
+	 *
+	 * @return void
+	 */
+	public function auth($source)
 	{
-		$this->load->helper('url_helper');
 		$this->load->library('oauth2');
-		$weibo = $this->oauth2->provider('weibo');
-	  	if (!$this->input->get('code')) {
-            $weibo->authorize();
+		$oauth = $this->oauth2->provider($source);
+		if (!$this->input->get('code')){
+            $oauth->authorize();
         }else{
-        	try {
-        		$token = $weibo->access($this->input->get('code'));
-        		var_dump($token);
-        	} catch (OAuth2_Exception $e) {
-        		//redirect(base_url().'weibo');
-        		echo '请重新授权新浪微博';
-        	}
-        	
-
-        	
+        	try{
+        		$token = $oauth->access($this->input->get('code'));
+        		$this->_build_auth($token, $source);
+        	}catch (OAuth2_Exception $e){
+        		echo '请重新授权';
+        	}        	
         }
 	}
 
 	// --------------------------------------------------------------------
 
-	public function taobao() 
+	/**
+	 * -------------------------------
+	 * 处理认证后,授权信息
+	 * -------------------------------
+	 *
+	 * @return void
+	 */
+	private function _build_auth(array $token, $source)
 	{
-		$this->load->helper('url_helper');
-		$this->load->library('oauth2');
-		$taobao = $this->oauth2->provider('taobao');
-	  	if (!$this->input->get('code')) {
-            $taobao->authorize();
-        }else{
-        	try {
-	    		$token = $taobao->access($this->input->get('code'));
-	    		var_dump($token);
-	    		//$taobao->access_token = $token['access_token'];
-	    		//$result = $taobao->get_user('zyhy0703');
-	   			 //$this->_logger->info($result);
-        	} catch (OAuth2_Exception $e) {
-        		echo '请重新授权淘宝账号';
-        	}
-        	
-        }
+		$this->load->config('auth');
+		$this->load->helper('auth');
+		$auth_key = $this->config->item($source.'_auth');
+		foreach ($auth_key as $key => $value) {
+			$auth[$value] = $token[$key];
+		}
+		$auth_source         = auth_source_constant($source);
+		$auth['auth_time']   = time();
+		$auth['auth_source'] = $auth_source;
+		
+		$is_auth = $this->auth->find_where(array('auth_user' => $auth['auth_user'], 'auth_source' => $auth_source));
 
-	}
-
-	// --------------------------------------------------------------------
-
-	public function pocket()
-	{
-		$this->load->library('oauth2');
-		$pocket = $this->oauth2->provider('pocket');
-		// $result = $pocket->update_page_tag('tceisk9584', 'tceisk9584', array('http://www.google.com' => '河南,郑州', 'http://www.twitter.com' => '浙江,杭州'));
-		// $this->_logger->info($result);
-	}
-
-	// --------------------------------------------------------------------
-
-	public function diandian() 
-	{
-		$this->load->library('oauth2');
-		$DD = $this->oauth2->provider('diandian');
-	  	if (!$this->input->get('code')) {
-            $DD->authorize();
-        }else{
-        	try {
-	    		$token = $DD->access($this->input->get('code'));
-	    		var_dump($token);
-	    		// $taobao->access_token = $token['access_token'];
-	    		// $result = $taobao->get_user('zyhy0703');
-	   			//  $this->_logger->info($result);
-        	} catch (OAuth2_Exception $e) {
-        		echo '请重新授权点点账号';
-        	}
-        	
-        }
-	}
-
-	// --------------------------------------------------------------------
-
-	public function show(){
-		$this->load->library('oauth2');
-		$taobao = $this->oauth2->provider('taobao');
-		$DD = $this->oauth2->provider('diandian');
-		// $result = $taobao->get_user(array('zyhy0703','tceisk9584'));
-		// $result = $taobao->get_shopcats();
-		$DD->page_count  = 2;
-		$result = $DD->get_tag_post('影像笔记');
-		// var_dump($result);
-	    $this->_logger->info($result);
+		if($is_auth){
+			$is_auth =$is_auth[0];
+			if($auth['auth_access_token'] != $is_auth['auth_access_token']){
+				$this->auth->update_where(array('auth_id' => $is_auth['auth_id']), $auth);
+			}
+			$this->load->model('user_model', 'user');
+			$user = $this->user->find_by_id($is_auth['auth_uid']);
+			$this->session->set_userdata(SESSION_USER, $user[0]);
+			redirect('/');
+		}else{
+			$this->session->set_userdata(SESSION_AUTH, $auth);
+			redirect('/signup');
+		}
 	}
 }

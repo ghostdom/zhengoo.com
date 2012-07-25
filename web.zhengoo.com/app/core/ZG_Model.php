@@ -54,6 +54,8 @@ class ZG_Model extends CI_Model
 		}
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * The magic :)
 	 *
@@ -126,10 +128,14 @@ class ZG_Model extends CI_Model
 		}
 	}
 
+	// --------------------------------------------------------------------
+
 	public function insert($data, $skip_validation = FALSE)
 	{
 		return $this->_insert($data, $skip_validation);
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Save a record into the database.
@@ -166,13 +172,12 @@ class ZG_Model extends CI_Model
 	{
 		$this->trigger_event("before_find");
 		if(!empty($limit)) $offset = DEFAULT_PAGE_NUM;
-		$result = $this->db->get($this->_table,$offset,$this->_get_offset($limit, $offset))
-		->result_array();
-
+		$result = $this->db->get($this->_table,$offset,$this->_get_offset($limit, $offset))->result_array();
 		$this->trigger_event("after_find",array($result));
-
 		return $result;
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Insert a new record into the database.
@@ -202,6 +207,8 @@ class ZG_Model extends CI_Model
 		}
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Update a record in the database.
 	 * Call before_update and after_update callbacks.
@@ -229,6 +236,8 @@ class ZG_Model extends CI_Model
 		}
 	}
 
+	// --------------------------------------------------------------------
+
 	/**
 	 * Delete a record
 	 * Call before_delete and after_delete callbacks.
@@ -243,6 +252,8 @@ class ZG_Model extends CI_Model
 
 		return $result;
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Runs Codeigniter validation.
@@ -276,6 +287,8 @@ class ZG_Model extends CI_Model
 			return TRUE;
 		}
 	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Run the callbacks
