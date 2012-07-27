@@ -80,7 +80,11 @@ class ZG_AppStore {
 	 * 
 	 * @return Int 	app编号
 	 */
-	public function get_appstore_id(){
+	public function get_app_id($app_url = NULL){
+		if( ! empty($app_url))
+		{
+			$this->_init_app_info($app_url);
+		}
 		return $this->_app_store_id;
 	}
 
@@ -117,11 +121,10 @@ class ZG_AppStore {
 	 * @return void
 	 */
 	private function _init_app_info($app_store_url){
-		preg_match('/\/id([0-9]*)/', $app_store_url , $app_url_info);
+		preg_match('/http:\/\/itunes.apple.com\/\w{2}\/app\/.*\/id([0-9]*)/', $app_store_url , $app_url_info);
 		if(count($app_url_info) > 0){
 			$this->_app_store_id = $app_url_info[1];
 		}
-		
 	}
 
 	//------------------------------------------------------
@@ -140,7 +143,7 @@ class ZG_AppStore {
 		}else{
 			$this->_init_app_info($id_or_url);
 		}
-		if(!empty($this->_app_store_id)){
+		if($this->_app_store_id > 0){
 			$this->_ci->load->helper('date');
 			$url = preg_replace('(#app_id#)', $this->_app_store_id, $this->_app_lookup_url);
 			$result = $this->_build_app($url);

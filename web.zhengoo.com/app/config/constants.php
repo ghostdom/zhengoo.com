@@ -86,18 +86,18 @@ define('APP_DEVICE_IPAD', 	2);
 
 /*
 |--------------------------------------------------------------------------
-| pin 来源常量
+| 来源常量
 |--------------------------------------------------------------------------
 |
 | 
 */
-define('PIN_SOURCE_ZHENGOO', 					0);			//珍果web上传
-define('PIN_SOURCE_OFFICIAL', 					1);			//官方获取
-define('PIN_SOURCE_BOOKMARK', 					2);			//书签插件
-define('PIN_SOURCE_BROWSER', 					3);			//浏览器插件
-define('PIN_SOURCE_REPRODUCED', 				4);			//网络转载
-define('PIN_SOURCE_IPHONE', 					5);			//iphone
-define('PIN_SOURCE_ANDROID', 					6);			//android
+define('ZG_SOURCE_ZHENGOO', 					0);			//珍果web上传
+define('ZG_SOURCE_OFFICIAL', 					1);			//官方获取
+define('ZG_SOURCE_BOOKMARK', 					2);			//书签插件
+define('ZG_SOURCE_BROWSER', 					3);			//浏览器插件
+define('ZG_SOURCE_REPRODUCED', 					4);			//网络转载
+define('ZG_SOURCE_IPHONE', 						5);			//iphone
+define('ZG_SOURCE_ANDROID', 					6);			//android
 
 /*
 |--------------------------------------------------------------------------

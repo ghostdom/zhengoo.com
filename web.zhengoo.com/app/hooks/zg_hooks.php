@@ -28,22 +28,26 @@
 function check_session_user(array $controllers) 
 {
 	$_ci = &get_instance(); 
-	$cur_controller = $_ci->uri->slash_rsegment(1) . $_ci->uri->slash_rsegment(2);
-	$cur_url        = current_url();
-	if(!in_array($cur_controller, $controllers))
-	{
-		$sess_user = $_ci->session->userdata(SESSION_USER);
-		if(empty($sess_user))
+	if($_ci->uri->segment(1) != ADMIN_PATH){
+		$cur_controller = $_ci->uri->slash_rsegment(1) . $_ci->uri->slash_rsegment(2);
+		$cur_url        = current_url();
+		if(!in_array($cur_controller, $controllers))
 		{
-			$login_url = '/login';
-			if($_GET){
-				$login_url .= '?next='.urlencode($cur_url.'?'.http_build_query($_GET));
-			}else{
-				$login_url .= '?next='.urlencode($cur_url); 
+			$sess_user = $_ci->session->userdata(SESSION_USER);
+			if(empty($sess_user))
+			{
+				$login_url = '/login';
+				if($_GET){
+					$login_url .= '?next='.urlencode($cur_url.'?'.http_build_query($_GET));
+				}else{
+					$login_url .= '?next='.urlencode($cur_url); 
+				}
+				redirect($login_url);
 			}
-			redirect($login_url);
 		}
 	}
+
+	
 }
 
 // --------------------------------------------------------------------

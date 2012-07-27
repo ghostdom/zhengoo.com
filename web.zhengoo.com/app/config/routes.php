@@ -51,6 +51,7 @@ $route['404_override']       = '';
 
 $route[ADMIN_PATH]                   = 'admin/index/login';
 $route[ADMIN_PATH.'/(login|logout)'] = 'admin/index/$1';
+$route[ADMIN_PATH.'/(:any)'] 		 = 'admin/$1';
 
 /*
  | -------------------------------------------------------------------------
@@ -60,11 +61,13 @@ $route[ADMIN_PATH.'/(login|logout)'] = 'admin/index/$1';
  */
 $route['(login|signup|logout)']          = 'user/$1'; 					
 $route['(weibo|taobao|pocket|diandian)'] = 'authorize/auth/$1';
+$route['tools'] 						 = 'main/tools';
 
-$route['list/(:any)']                    =	'lists/$1';
-$route['app/(:any)']                     = 'app/category/$1';
+$route['list/(:any)']                    = 'lists/$1';
+$route['app/(:any)']                     = 'app/$1';
+$route['collect/(:any)']				 = 'collect/$1';
 
 $route['(:any)']                         = '/user/home/$1';
-$route['(:any)/(:any)']                  = 'lists/collect_list/$1/$2';
+// $route['(:any)/(:any)']                  = 'lists/collect_list/$1/$2';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

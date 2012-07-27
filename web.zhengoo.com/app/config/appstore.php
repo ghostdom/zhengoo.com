@@ -54,7 +54,8 @@ $config['app_store_category_ids'] = array(
 	'ti-yu'                => 6004,
 	'lv-xing'              => 6003,
 	'gong-ju'              => 6002,
-	'tian-qi'              => 6001
+	'tian-qi'              => 6001,
+	'mei-shi-jia-yin'	   => 6023
 );
 
 /*
@@ -88,7 +89,8 @@ $config['local_category'] = array(
 	6004 => '体育|19',
 	6003 => '旅行|20', 
 	6002 => '工具|21',
-	6001 => '天气|22'
+	6001 => '天气|22',
+	6023 => '美食佳饮|23'
 );
 
 /*

@@ -17,6 +17,7 @@ $hook['post_controller_constructor'] = array(
                                 'filename' => 'zg_hooks.php',
                                 'filepath' => 'hooks',
                                 'params'   => array(
+                                    
                                			'authorize/auth/',
                                			'main/welcome/',
                                			'user/login/',

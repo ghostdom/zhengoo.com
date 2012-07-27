@@ -37,4 +37,11 @@ class Main extends ZG_Controller {
 		$this->load->view('index', $this->data);
 	}
 
+	// --------------------------------------------------------------------
+
+	function tools() 
+	{
+		$this->load->view('tools', $this->data);
+	}
+
 }
