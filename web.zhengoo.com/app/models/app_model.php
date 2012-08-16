@@ -39,7 +39,7 @@ class App_Model extends ZG_Model {
 	/**
 	 *---------------------------------
 	 * 新增app数据 
-	 * - 抓取数据时,只新增 app_title, app_store_url
+	 * - 抓取数据时,只新增 app_title, app_store_url 状态未完成
 	 * - affair true 	多条记录
 	 * - affair false 	单记录
 	 *---------------------------------
@@ -49,7 +49,7 @@ class App_Model extends ZG_Model {
 	 * @return array\int  多数据新增,返回重复app应用名称 
 	 * @access	public
 	 */
-	function addApp($apps, $affair = FLASE) {
+	function insert_app($apps, $affair = FALSE) {
 		if($affair){
 			$repeat = array();
 			foreach ($apps as $app) {
@@ -61,7 +61,12 @@ class App_Model extends ZG_Model {
 			}
 			return $repeat;
 		}else{
-			return $this->insert($apps);
+			$app = $this->find_by_store_id($apps['app_store_id']);
+			if(!$app){
+				return $this->insert($apps);
+			}else{
+				return $app[0]['app_id'];
+			}
 		}
 	}
 

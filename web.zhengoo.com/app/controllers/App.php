@@ -30,7 +30,6 @@ class App extends ZG_Controller {
 
 	function lists()
 	{
-		
 		$this->load->view('find_app', $this->data);
 	}
 

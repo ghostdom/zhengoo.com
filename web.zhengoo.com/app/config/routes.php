@@ -59,15 +59,16 @@ $route[ADMIN_PATH.'/(:any)'] 		 = 'admin/$1';
  | -------------------------------------------------------------------------
  |
  */
-$route['(login|signup|logout)']          = 'user/$1'; 					
+$route['(login|signup|logout|m_login)']  = 'user/$1'; 					
 $route['(weibo|taobao|pocket|diandian)'] = 'authorize/auth/$1';
 $route['tools'] 						 = 'main/tools';
+$route['home']							 = '/user/home';
 
 $route['list/(:any)']                    = 'lists/$1';
 $route['app/(:any)']                     = 'app/$1';
 $route['collect/(:any)']				 = 'collect/$1';
 
-$route['(:any)']                         = '/user/home/$1';
+// $route['(:any)']                         = '/user/home/$1';
 // $route['(:any)/(:any)']                  = 'lists/collect_list/$1/$2';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

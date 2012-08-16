@@ -3,10 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>珍果网</title>
-	<script type="text/javascript" src="<?=lib_url()?>/js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="<?=lib_url()?>/js/jquery.form.js"></script>
 	<style type="text/css">
-
     body {
         font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
         -webkit-font-smoothing:antialiased;
@@ -36,11 +33,6 @@
         -moz-border-radius:2px;
         -o-border-radius:2px;
         border-radius:2px;
-    }
-
-    input[type=text] {
-        margin: 0;
-        width: 133px;
     }
     
     textarea {height:80px;}
@@ -203,7 +195,7 @@
 	<div id="frame-container">
 	<div id="zhengoo-frame">
 	<div id="h">
-	 <form id="add_collect" action="/collect/add"  method="post">
+	 <form action="/collect/add"  method="post">
         <img width="60" height="60" alt="珍果网" src="<?=$app['app_icon']?>">
         <span class="mask"></span>
 
@@ -226,10 +218,9 @@
         <?php 
             }
         ?>
-		<option value="-1" id="new-list">-- 新建 --</option>
+		<option value="--new-list--" id="new-list">-- 新建 --</option>
 	</select>
-	<input type="text" name="list_title" id="list_title" placeholder="键入名称" style="display: none;">
-    
+	<input type="text" name="new_list" id="new_list_name" placeholder="New list" style="display: none;">
     <input type="hidden" name="app_store_id" value="<?=$app['app_store_id']?>"/>
     <input type="hidden" name="app_title" value="<?=$app['app_title']?>">
     <input type="hidden" name="app_store_url" value="<?=$app['app_store_url']?>">
@@ -242,31 +233,6 @@
 	</form>
     </div>
 	</div>
-
-    <script type="text/javascript">
-        $(function () {
-            $('#submit_clip').click(function (){
-                var list_val = $('#id_list').val();
-                if(list_val == -1 && ($('#list_title').val().length == 0 || $('#list_title').val().length > 30)){
-                    alert('请正确填写列表名称');
-                    $('#list_title').select().focus();
-                    return false;
-                }else{
-                    $(this).val('数据提交中...'); 
-                    $('#add_collect').ajaxForm(function (){
-                        window.close();
-                    });
-                }
-            });
-
-            $('#id_list').change(function (){
-                if($(this).val() == -1){
-                    $(this).hide();
-                    $('#list_title').show();
-                }
-            });
-
-        });
-    </script>
 </body>
+
 </html>

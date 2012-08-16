@@ -35,8 +35,12 @@ function check_session_user(array $controllers)
 		{
 			$sess_user = $_ci->session->userdata(SESSION_USER);
 			if(empty($sess_user))
-			{
+			{		
 				$login_url = '/login';
+				if($_ci->input->get('win') === 'min')
+				{
+					$login_url = '/m_login';
+				}
 				if($_GET){
 					$login_url .= '?next='.urlencode($cur_url.'?'.http_build_query($_GET));
 				}else{

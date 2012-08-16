@@ -33,43 +33,53 @@ class User extends ZG_Controller {
 	 * @link 
 	 * @return void
 	 */
-	function home($user_login_name = '') {
-
-		if($this->is_user() && $this->sess_user['user_login_name'] == $user_login_name)
-		{
-			$user_id = $this->sess_user['user_id'];
-			$this->data['cur_user'] = $this->sess_user;
-		}else{
-			$user = $this->user->find_by_login_name($user_login_name);
-			if($user){
-				$user = $user[0];
-				$user_id = $user['user_id'];
-				$this->data['cur_user'] = $user;
-			}
-		}
-		
-		if(isset($user_id))
-		{
-			$this->load->model('list_model', 'list');
-			$lists = $this->list->find_where(array('list_uid' => $user_id));
-			$this->data['lists'] = $lists;
-			$this->load->view('home_timeline', $this->data);
-		}
-		
-		
+	function home() 
+	{
+		$this->load->model('collect_model', 'collect');
+		$collects = $this->collect->find
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
 	 * ---------------------------
-	 * 用户登陆
+	 * web 主登陆页面
 	 * ---------------------------
 	 *
 	 * @link /login
 	 * @return void
 	 */
 	public function login()
+	{
+		$this->_login('login');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 插件 min登陆页面
+	 * ---------------------------
+	 *
+	 * @link /login
+	 * @return void
+	 */
+	public function m_login() 
+	{
+		$this->_login('mini_login');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 处理用户登陆操作
+	 * ---------------------------
+	 *
+	 * @link /login
+	 * @return void
+	 */
+	public function _login($page) 
 	{
 		if($this->is_post())
 		{
@@ -93,12 +103,13 @@ class User extends ZG_Controller {
 				redirect($redirect_url);
 			}else{
 				$this->message_error('账号不存在或密码错误');
-				$this->load->view('login', $this->data);
+				$this->load->view($page, $this->data);
 			}
 		}else{
-			$this->load->view('login', $this->data);
+			$this->load->view($page, $this->data);
 		}
 	}
+
 	// --------------------------------------------------------------------
 	
 	/**

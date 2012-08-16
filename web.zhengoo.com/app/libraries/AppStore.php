@@ -121,9 +121,9 @@ class ZG_AppStore {
 	 * @return void
 	 */
 	private function _init_app_info($app_store_url){
-		preg_match('/http:\/\/itunes.apple.com\/\w{2}\/app\/.*\/id([0-9]*)/', $app_store_url , $app_url_info);
+		preg_match('/http:\/\/itunes.apple.com(\/\w{2})?\/app(\/.*)?\/id([0-9]*)/', $app_store_url , $app_url_info);
 		if(count($app_url_info) > 0){
-			$this->_app_store_id = $app_url_info[1];
+			$this->_app_store_id = $app_url_info[3];
 		}
 	}
 
