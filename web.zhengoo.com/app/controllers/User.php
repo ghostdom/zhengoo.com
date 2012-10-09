@@ -36,7 +36,7 @@ class User extends ZG_Controller {
 	function home() 
 	{
 		$this->load->model('collect_model', 'collect');
-		$collects = $this->collect->find
+		// $collects = $this->collect->find
 	}
 
 	// --------------------------------------------------------------------
