@@ -148,7 +148,7 @@
                         <td ><input type="checkbox" name="app_id" value="<?=$app_id?>" /></td>
                         <td  align="center">
                             <a href="http://www.pintutu.com/?iframe=true&width=100%&height=100%" rel="lightbox" title="<?=$app['app_title']?>">
-                                <img class="app_icon" src="<?=$app['app_icon']?>" width="55" height="55"/>
+                                <img class="app_icon" src="<?=app_icon_75($app['app_icon'])?>" width="55" height="55"/>
                             </a>
                         </td>
                         

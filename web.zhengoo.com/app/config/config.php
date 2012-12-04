@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']   = 'http://app.zhengoo.com';
+$config['base_url']   = 'http://www.zhengoo.com';
 $config['lib_url']    = 'http://lib.zhengoo.com';
 /*
 |--------------------------------------------------------------------------

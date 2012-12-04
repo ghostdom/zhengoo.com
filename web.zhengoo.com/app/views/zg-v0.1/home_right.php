@@ -2,55 +2,100 @@
 	<h1>我的动态</h1>
 	<ul class="feed-list">
 		<?php 
-			for ($i=0; $i <  10; $i++) { 
+			$this->load->helper('date');
+			foreach ($collects as $collect) {
 		?>
-		<li>
-			<div>
-				<a href="#"><img src="https://secure.gravatar.com/avatar/4e7e29dcdb21812fc9e31fd1884cb74f/?default=https%3A%2F%2Fkippt.com%2Fstatic%2Fimg%2Fdefault-avatar.jpg&s=160"/></a>
+		<li class="collect">
+			<div class="collect-item">
+				<a class="collect-save btn btn-danger" href="javascript:;" 
+					data-content="
+					<form onsubmit='javascript:return false;'>
+						<input type='hidden' name='collect_app_id' value='<?=$collect['collect_app_id']?>'/>
+						<input type='hidden' name='collect_store_id' value='<?=$collect['collect_store_id']?>'/>
+						<input type='hidden' name='collect_form' value='<?=$collect['collect_id']?>'/>
+						<?php
+							$collect_root = $collect['collect_root'];
+							if($collect['collect_root'] == 0){
+								$collect_root = $collect['collect_id'];
+							}
+						?>
+						<input type='hidden' name='collect_root' value='<?=$collect_root?>'/>
+						<input type='hidden' name='collect_title' value='<?=$collect['collect_title']?>'>
+						<input type='hidden' name='collect_icon' value='<?=$collect['collect_icon']?>'>
+						<input type='hidden' name='collect_link' value='<?=$collect['collect_link']?>'>
+						<input type='hidden' name='app_desc' value='<?=htmlspecialchars($collect['collect_note'])?>'>
+						<textarea name='collect_note' rows='2' placeholder='为什么你要收录...？'></textarea>
+						<div class='prpover-footer'>
+							<input class='btn btn-success collect-save-btn ' type='submit' value='确定' />
+						</div>
+					</form>" title="">
+					<i class="icon icon-plus icon-white"></i>
+					保存
+				</a>
+				<div class="feed-avatar">
+					<a href="/<?=$collect['user_login_name']?>/<?=$collect['collect_title']?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>" title="<?=$collect['collect_title']?>"><img class="app-icon" src="<?=app_icon_75($collect['collect_icon'])?>" title="<?=$collect['collect_title']?>" alt="<?=$collect['collect_title']?>"/><span class="mask"></span></a>
+					<a href="/<?=$collect['user_login_name']?>" title="<?=$collect['user_nice_name']?>"><img class="avatar" src="<?=$collect['user_avatar']?>" title="<?=$collect['user_nice_name']?>" alt="<?=$collect['user_nice_name']?>" /></a>
+				</div>
+				
 				<div class="feed-event">
-					<a href="/jorilallo">轩宇同学</a> 
-					收集到 
-					<a href="#">云工具</a> 
-					<span class="timestamp">
-						1分钟前
-					</span>
+					<a href="/<?=$collect['user_login_name']?>"><?=$collect['user_nice_name']?></a> 
+					<!-- 收录到 
+					<a href="#">组名</a>  -->
+					<span class="timestamp"><?=format_date($collect['collect_time'])?></span>
 				</div>
 
 				<div class="feed-content">
-					<a href="#" class="feed-title">淘真货-天猫淘宝正品精选，潮男美女的个性时尚购物商城</a>
+					<a href="/<?=$collect['user_login_name']?>/<?=$collect['collect_title']?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>" class="feed-title" title="<?=$collect['collect_title']?>"><?=$collect['collect_title']?></a>
 					<div class="notes">
-						<a href="#" class="clip-link">
-							<div class="content">淘真货致力于打造iPad上最酷最便捷的网购工具,我们从天猫、淘宝和其他电商平台精选数百个品牌,优选了几千家货真价实的店铺。奢品、名品、风尚、潮牌、独立设计师、淘品牌,一网打尽;新品、折扣、闪购、促销、团购、聚划算,尽在掌中。</div>
+						<a href="/<?=$collect['user_login_name']?>/<?=$collect['collect_title']?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>" class="clip-link">
+							<div class="content">
+								<?=$collect['collect_note']?>
+							</div>
 						</a>
 					</div>
 					<div class="feed-actions">
-						<!-- <span><a href=""> <i class="icon icon-share-alt"></i> 关注</a></span> -->
-						<span><a href=""> <i class="icon icon-comment"></i> 评论</a></span>
-						<span><a href=""> <i class="icon icon-heart"></i> 喜欢</a></span>
-						<span><a href=""> <i class="icon icon-star"></i> 收藏</a></span>
+						<span><a href="#" class="comment"> <i class="icon icon-comment"></i> 评论(<?=$collect['comment_count']?>)</a></span>
+						<span><a href="#"> <i class="icon icon-heart"></i> 喜欢</a></span>
+						<span><a href="#"> <i class="icon icon-star"></i> 标星</a></span>
 					</div>
 				</div>
+				<!-- start comment -->
+
 				<div class="feed-comments">
-					<div class="all-comments" style="display: block; ">后面还有35条评论<a href="#" class="clip-link" > 点击查看 >></a></div>
+					<?php 
+						if($collect['comment_count'] > 2){
+					?>
+						<div class="all-comments" style="display: block;">后面还有 <strong><?=$collect['comment_count'] - 2 ?></strong> 条评论, <a href="/<?=$collect['user_login_name']?>/<?=$collect['collect_title']?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>" class="clip-link" > 点击查看 >></a></div>
+					<?php 
+						}
+					?>
 					<ul>
+						<?php 
+							foreach ($collect['comments'] as $comment) {
+						?>
 						<li>
-							<a href="#"><img class="avatar" src="https://secure.gravatar.com/avatar/dacd777a0fee697f5ee1150e09267c3a/?default=https%3A%2F%2Fkippt.com%2Fstatic%2Fimg%2Fdefault-avatar.jpg&s=160"></a>
+							<a title="<?=$comment['user_nice_name']?>" href="/<?=$comment['user_login_name']?>"><img title="<?=$comment['user_nice_name']?>" alt="<?=$comment['user_nice_name']?>" class="avatar" src="<?=$comment['user_avatar']?>"></a>
 							<div class="body">
-								<div style="float:right;"><span class="timestamp">1分钟前</span></div>
+								<div style="float:right;"><span class="timestamp"><?=format_date($comment['comment_time'])?></span></div>
 								<div class="body-text">
-									<a href="">张蕊: </a>
-									心很好，但是个人觉得双闪的使用要慎重，尤其是并线变道。。。绝大部分车型在双闪时，后车并不能准确判定其变道意图，容易引起不必要的事故。。。。。。
+									<a href="/<?=$comment['user_login_name']?>"><?=$comment['user_nice_name']?>: </a>
+									<?=$comment['comment_body']?>
 								</div>
 							</div>
 						</li>
+						<?php 
+							} //end foreach
+						?>
 					</ul>
-					<div class="reply">
-			            <form class="add-comment">
-			                <img src="https://secure.gravatar.com/avatar/0198f53936a4d203d2db4644be5da52d/?default=https%3A%2F%2Fkippt.com%2Fstatic%2Fimg%2Fdefault-avatar.jpg&amp;s=160" width="32" class="avatar">
-			                <input type="text" placeholder="没事说两句...">
+					<div class="reply" <?php if(empty($collect['comments'])) { ?> style="display:none" <?php } ?>  >
+			            <form action="/comment/<?=$collect['collect_title']?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>" class="add-comment">
+			                <img src="<?=$sess_user['user_avatar']?>" width="32" class="avatar">
+			                <input name="comment_body" type="text" placeholder="你敢发表下点自己的意见吗..." />
+			                <button class="btn btn-small btn-comment">评论</button>
 			            </form>
 			        </div>
 				</div>
+				<!-- end comment -->
 			</div>
 		</li>
 		<?php

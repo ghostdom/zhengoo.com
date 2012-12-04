@@ -61,7 +61,7 @@ class Authorize extends ZG_Controller {
         }else{
         	try{
         		$token = $oauth->access($this->input->get('code'));
-        		$this->_build_auth($token, $source);
+        		$this->_build_auth($token, $source, $oauth);
         	}catch (OAuth2_Exception $e){
         		echo '请重新授权';
         	}        	
@@ -77,7 +77,7 @@ class Authorize extends ZG_Controller {
 	 *
 	 * @return void
 	 */
-	private function _build_auth(array $token, $source)
+	private function _build_auth(array $token, $source, $provider)
 	{
 		$this->load->config('auth');
 		$this->load->helper('auth');
@@ -85,12 +85,14 @@ class Authorize extends ZG_Controller {
 		foreach ($auth_key as $key => $value) {
 			$auth[$value] = $token[$key];
 		}
-		$auth_source         = auth_source_constant($source);
-		$auth['auth_time']   = time();
+		$auth_source         = name_to_source($source);
 		$auth['auth_source'] = $auth_source;
 		
+		if($auth_source == AUTH_SOURCE_QQ){
+			$openid = $provider->get_user_id($auth['auth_access_token']);
+			$auth['auth_user'] = $openid;
+		}
 		$is_auth = $this->auth->find_where(array('auth_user' => $auth['auth_user'], 'auth_source' => $auth_source));
-
 		if($is_auth){
 			$is_auth =$is_auth[0];
 			if($auth['auth_access_token'] != $is_auth['auth_access_token']){
@@ -99,9 +101,19 @@ class Authorize extends ZG_Controller {
 			$this->load->model('user_model', 'user');
 			$user = $this->user->find_by_id($is_auth['auth_uid']);
 			$this->session->set_userdata(SESSION_USER, $user[0]);
-			redirect('/');
+			redirect('/home');
 		}else{
+			if($auth_source == AUTH_SOURCE_QQ){
+				$oauth_user = $provider->get_user($auth['auth_access_token'], $openid);
+			} else {
+				$oauth_user = $provider->get_user($auth['auth_user']);
+			}
+			$user_key = $this->config->item($source.'_user');
+			foreach ($user_key as $key => $value) {
+				$user[$value] = $oauth_user[$key];
+			}
 			$this->session->set_userdata(SESSION_AUTH, $auth);
+			$this->session->set_userdata(SESSION_AUTH_USER, $user);
 			redirect('/signup');
 		}
 	}

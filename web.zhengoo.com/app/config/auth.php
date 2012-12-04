@@ -32,6 +32,34 @@ $config['weibo_password']   = 'zhengoo_sns';
 
 /*
 | -------------------------------------------------------------------
+| QQ互联 App相关配置
+| -------------------------------------------------------------------
+| 
+| - qq_app_key 
+| - qq_app_secret 
+*/
+$config['qq_app_key']    = 100330084; //qq互联
+$config['qq_app_secret'] = 'b05407ad5d5c4677deb462076479cf7a'; 
+// $config['qq_app_key']    = 100627363;
+// $config['qq_app_secret'] = '452735d1d591c14c84e6556375466188';
+
+// --------------------------------------------------------------------
+
+/*
+| -------------------------------------------------------------------
+| 微信 App相关配置
+| -------------------------------------------------------------------
+| 
+| - weixin_app_key 
+| - weixin_app_secret 
+*/
+$config['weixin_app_key']    = 'wx9e3fefadac23914e';
+$config['weixin_app_secret'] = '82fbb368b8bd98d1f1ea5049403328e3'; 
+
+// --------------------------------------------------------------------
+
+/*
+| -------------------------------------------------------------------
 | 淘宝网 App相关配置
 | -------------------------------------------------------------------
 | 
@@ -96,6 +124,7 @@ $config['500px_app_secret']		= 'LXuUjh4yDpv1vsvQOZac9MH5i9hVcGDJf2h0xoOW';
 | -------------------------------------------------------------------
 | 
 | - 新浪微博 
+| - 腾讯
 | - 淘宝
 | - 点点
 */
@@ -104,6 +133,11 @@ $config['weibo_auth'] 	= array(
 	'access_token' => 'auth_access_token',
 	'expires_in'   => 'auth_expired_time',
 	'uid'          => 'auth_user'
+);
+
+$config['qq_auth'] 	= array(
+	'access_token' => 'auth_access_token',
+	'expires_in'   => 'auth_expired_time',
 );
 
 $config['taobao_auth'] 	= array(
@@ -118,6 +152,29 @@ $config['diandian_auth'] = array(
 	'refresh_token' => 'auth_refresh_token',
 	'expires_in'    => 'auth_expired_time',
 	'uid'           => 'auth_user'
+);
+
+// --------------------------------------------------------------------
+
+/*
+| -------------------------------------------------------------------
+| 针对每一个开放平台对应 用户信息 不同的参数, 以下配置对应相应的 
+| -------------------------------------------------------------------
+| 
+| - 新浪微博 
+| - 腾讯
+| - 淘宝
+| - 点点
+*/
+
+$config['weibo_user'] = array(
+	'screen_name' => 'user_nice_name',
+	'avatar_large' => 'user_avatar'
+);
+
+$config['qq_user'] = array(
+	'nick' => 'user_nice_name',
+	'head' => 'user_avatar'
 );
 
 

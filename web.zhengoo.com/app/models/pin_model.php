@@ -32,6 +32,8 @@ define('PIN_STATUS_ILLEGAL', 		3);			//不合法
 define('PIN_TYPE_MAST', 			0);			//截屏类型: 普通
 define('PIN_TYPE_UI', 				1);			//截屏类型: 界面
 define('PIN_TYPE_SHOW_OFF',			2);			//截屏类型: 炫耀
+
+define('PIN_SOURCE_OFFICIAL', 		0); 		//截图来源： 官方	
 class Pin_Model extends ZG_Model {
 	
 }

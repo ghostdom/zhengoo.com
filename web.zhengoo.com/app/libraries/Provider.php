@@ -80,6 +80,10 @@ abstract class OAuth2_Provider
 	 * string boundary
 	 */
 	protected static $boundary = '';
+	/**
+	 *
+	 */
+	protected $app_key = 'client_id';
 
 	/**
 	 * Overloads default class properties from the options.
@@ -154,7 +158,7 @@ abstract class OAuth2_Provider
 		get_instance()->session->set_userdata('state', $state);
 
 		$params = array(
-			'client_id' 		=> $this->client_id,
+			$this->app_key 		=> $this->client_id,
 			'redirect_uri' 		=> isset($options['redirect_uri']) ? $options['redirect_uri'] : $this->redirect_uri,
 			'state' 			=> $state,
 			'scope'				=> is_array($this->scope) ? implode($this->scope_seperator, $this->scope) : $this->scope,
@@ -252,7 +256,6 @@ abstract class OAuth2_Provider
 	 */
 	private function _http($method, $params = array()){
 		$this->_ci->load->library('curl');
-		// $this->_ci->curl->http_header($this->headers);
 		if($this->headers)
 			$this->_ci->curl->option(CURLOPT_HTTPHEADER, $this->headers);
 
@@ -264,10 +267,13 @@ abstract class OAuth2_Provider
 					$response = $this->_ci->curl->simple_post($this->api_url, $params); 
 				break;
 		}
-		// $this->_ci->curl->debug();
-		// var_dump($response);
-		
-		return json_decode($response, true);
+
+		$result = json_decode($response, true);
+		if(empty($result)){
+			return $response;
+		}
+		return $result;
+	
 	} 
 
 	/**

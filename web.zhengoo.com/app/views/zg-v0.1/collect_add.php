@@ -19,6 +19,9 @@
         background-image: -ms-linear-gradient(white, #fafafa);
         background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #fafafa));
         background-image: -webkit-linear-gradient(white, #fafafa);
+        overflow-x:hidden;
+        overflow-y:hidden;
+
     }
     
     input[type=text], textarea {
@@ -120,7 +123,7 @@
 
     #h div{
         color: #777777;
-        height: 63px;
+        height: 55px;
         width: 80%;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -199,7 +202,7 @@
 	</style>
 </head>
 
-<body>
+<body scroll="no">
 	<div id="frame-container">
 	<div id="zhengoo-frame">
 	<div id="h">
@@ -217,26 +220,24 @@
 	    <textarea placeholder="输入您对该应用的描述..." name="collect_note" cols="40" rows="10" id="id_notes"></textarea>
 	</div>
 
-	<select id="id_list" class="lists" name="collect_list_id">
-        <?php 
-            foreach ($lists as $list) {
-            
-        ?>
-		<option value="<?=$list['list_id']?>"><?=$list['list_title']?></option>
-        <?php 
-            }
-        ?>
+<!-- 	<select id="id_list" class="lists" name="collect_list_id">
+
+		<option value="2">2</option>
+
 		<option value="-1" id="new-list">-- 新建 --</option>
-	</select>
-	<input type="text" name="list_title" id="list_title" placeholder="键入名称" style="display: none;">
+	</select> -->
+	<!-- <input type="text" name="list_title" id="list_title" placeholder="键入名称" style="display: none;"> -->
     
     <input type="hidden" name="app_store_id" value="<?=$app['app_store_id']?>"/>
-    <input type="hidden" name="app_title" value="<?=$app['app_title']?>">
-    <input type="hidden" name="app_store_url" value="<?=$app['app_store_url']?>">
+    <input type="hidden" name="app_title" value="<?=$app['app_title']?>"/>
+    <input type="hidden" name="app_store_url" value="<?=$app['app_store_url']?>"/>
+    <input type="hidden" name="app_icon" value="<?=$app['app_icon']?>"/>
+    <input type="hidden" name="app_desc" value="<?=$app['app_desc']?>"/>
+
 	<div class="sharing">
-	    <a target="_blank" title="Share to Twitter" class="toggle twitter " href="/accounts/settings/connections/"></a>
+<!-- 	    <a target="_blank" title="Share to Twitter" class="toggle twitter " href="/accounts/settings/connections/"></a>
 	    <a target="_blank" title="Share to Facebook" class="toggle facebook " href="/accounts/settings/connections/"></a>
-	    <a target="_blank" title="Share to Tumblr" class="toggle tumblr " href="/accounts/settings/connections/"></a>
+	    <a target="_blank" title="Share to Tumblr" class="toggle tumblr " href="/accounts/settings/connections/"></a> -->
 	</div>
 	<input type="submit" id="submit_clip" value="保存">
 	</form>

@@ -1,4 +1,4 @@
-<div class="span3 well" id="sidebar" >
+<div class="span3 sidebar">
 	<ul class="nav nav-list">
   		<li><a href="#"><i class="icon icon-home"></i> 我的首页 </a></li>
   		<li class="divider"></li>
@@ -8,17 +8,14 @@
   		<li> <a href=""><i class="icon icon-heart"></i> 喜欢</a></li>
       <li> <a href=""><i class="icon icon-comment"></i> 评论</a></li>
   		<li class="divider"></li>
-  		<?php 
-        foreach ($lists as $list) {
-       
-      ?>
-      <li> <a href="/<?=$cur_user['user_login_name']?>/<?=$list['list_id']?>"><i class="icon icon-folder-open"></i> <?=$list['list_title']?></a></li>
-      <?php 
-        }
-      ?>
+  		
+<!--       <li><a href="#"><i class="icon icon-list-alt"></i> 分组</a></li>
+
   		
       <li class="divider"></li>
-  		<a class="btn" data-toggle="modal" href="#add_list"><i class="icon-plus icon"></i>新建列表</a>
+  		<a class="btn btn-danger btn-block " data-toggle="modal" href="#add_list">
+        <i class="icon icon-plus icon-white"></i>新建应用分组
+      </a> -->
 	</ul>
 </div>
 <?php $this->load->view('list_add'); ?>

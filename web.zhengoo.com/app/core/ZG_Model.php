@@ -168,11 +168,11 @@ class ZG_Model extends CI_Model
 	 * @param boolean $offset
 	 * @return array
 	 */
-	private function _find($limit=NULL,$offset=NULL)
+	private function _find($offset = NULL, $limit = NULL)
 	{
+
 		$this->trigger_event("before_find");
-		if(!empty($limit)) $offset = DEFAULT_PAGE_NUM;
-		$result = $this->db->get($this->_table,$offset,$this->_get_offset($limit, $offset))->result_array();
+		$result = $this->db->get($this->_table, $limit, $this->_get_offset($offset, $limit))->result_array();
 		$this->trigger_event("after_find",array($result));
 		return $result;
 	}
@@ -331,5 +331,22 @@ class ZG_Model extends CI_Model
 		$query = $this->db->get($this->_table)->result_array();
 		return $query[0]['count'];
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 *---------------------------------
+	 * 设置limit参数
+	 *---------------------------------
+	 *
+	 * @param page 		int		页数
+	 * @param page_num	int 	每页显示数量
+	 */
+	public function set_limit($page, $page_num)
+	{
+		$offset = $this->_get_offset($page, $page_num);
+		$this->db->limit($page_num,$offset);
+	}
+
 
 }

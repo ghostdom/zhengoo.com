@@ -3,7 +3,7 @@
  * 汉语转拼音的类
  *
  */
-class utf8pinyin{
+class pinyin{
 	/**
 	 * 汉字拼音对照数组
 	 *
@@ -23,7 +23,7 @@ class utf8pinyin{
 	 *
 	 * @return py_class
 	 */
-	function utf8pinyin(){
+	function pinyin(){
 		$this->ci =& get_instance();
 		$this->pinyin=array(
 		"A"=>array(59371,41648,50400,33157,41392,18661,47599),

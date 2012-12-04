@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+  <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * www.ZhenGoo.com 
  *
@@ -86,6 +86,23 @@ class ZG_Controller extends CI_Controller {
 	}
 
 	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------------
+	 * 判断是否属于ajax请求
+	 * ---------------------------------
+	 *
+	 * @access	protected
+	 */
+	 function is_ajax() {
+		if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
+
+	// --------------------------------------------------------------------
 	
 	/**
 	 * ---------------------------------
@@ -94,10 +111,36 @@ class ZG_Controller extends CI_Controller {
  	 *
  	 * @return boolean true 已登录 false 未登陆
 	 */
-	function is_user()
+	function is_user_login()
 	{
 		$this->sess_user ? $is_user = TRUE : $is_user = FALSE ;
 		return $is_user;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------------
+	 * 根据用户登录名，获取用户对象
+	 * 
+	 * - 登录名和session中用户相同，直接返回session中用户信息
+	 * - 以上条件不成立 则查询数据库获取用户信息
+ 	 * ---------------------------------
+ 	 *
+ 	 * @return boolean true 已登录 false 未登陆
+	 */
+	function get_user_by_login_name($user_login_name)
+	{
+		if($this->is_user_login() && $this->sess_user['user_login_name'] == $user_login_name){
+			$user = $this->sess_user;
+		}else{
+			$this->load->model('user_model', 'user');
+			$user = $this->user->find_by_login_name($user_login_name);
+			if($user){
+				$user = $user[0];
+			}
+		}
+		return $user;
 	}
 
 	// --------------------------------------------------------------------
@@ -210,8 +253,13 @@ class ZG_Controller extends CI_Controller {
  */
 class ZG_Admin_Controller extends ZG_Controller{
 	
-
+	/**
+	 * 后台用户session
+	 */
 	protected $sess_admin ;
+
+	// --------------------------------------------------------------------
+
 	/**
 	 *---------------------------------
 	 * 构造函数

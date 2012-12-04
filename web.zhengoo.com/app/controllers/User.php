@@ -18,7 +18,8 @@ class User extends ZG_Controller {
 	 *
 	 * @return void
 	 */
-	function __construct() {
+	function __construct() 
+	{
 		parent::__construct();
 		$this->load->model('user_model', 'user');
 	}
@@ -27,16 +28,140 @@ class User extends ZG_Controller {
 
 	/**
 	 * ---------------------------
-	 * 用户主页
+	 * 用户主页(自己)
 	 * ---------------------------
 	 *
-	 * @link 
+	 * @link  /home
 	 * @return void
 	 */
 	function home() 
 	{
 		$this->load->model('collect_model', 'collect');
-		// $collects = $this->collect->find
+		$this->load->model('comment_model', 'comment');
+		$collects = $this->collect->find_by_ufollow($this->sess_user['user_id'], $this->page);
+		foreach ($collects as $i => $collect) {
+			$collect['comments']      = $this->comment->find_by_cid_with_user($collect['collect_id'], 1, 2);
+			$collect['comment_count'] = $this->comment->count(array('comment_cid' => $collect['collect_id']));
+			$collects[$i] = $collect;
+		}
+		$this->data['collects'] = $collects;
+		$this->load->view('home', $this->data);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 个人首页 展示所有收集 （默认）
+	 * ---------------------------
+	 *
+	 * @link /{user_login_name}
+	 * @return void
+	 */
+	function personal($user_login_name)
+	{
+		$user = $this->_personal_top_data($user_login_name);
+		$this->data['collects'] = $this->collect->get_by_user_id($user['user_id'], $this->page, 40);
+		$this->load->view('personal', $this->data);
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 个人首页 - 我的关注 
+	 * ---------------------------
+	 *
+	 * @link /{user_login_name}/following
+	 * @return void
+	 */
+	function personal_following($user_login_name)
+	{
+		$user = $this->_personal_top_data($user_login_name);
+		$this->data['followers'] = $this->ufollow->get_following_with_user($user['user_id'], $this->page);
+		$this->load->view('personal_follower', $this->data);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 个人首页 - 我的粉丝 
+	 * ---------------------------
+	 *
+	 * @link /{user_login_name}/followers
+	 * @return void
+	 */
+	function personal_followers($user_login_name)
+	{
+		$user = $this->_personal_top_data($user_login_name);
+		$this->data['followers'] = $this->ufollow->get_followers_with_user($user['user_id'], $this->page);
+		$this->load->view('personal_follower', $this->data);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 个人首页 顶部公共信息（用户信息） 
+	 * ---------------------------
+	 *
+	 * @param  user_login_name 	用户登录名
+	 * @return user 			用户信息
+	 */
+	function _personal_top_data($user_login_name)
+	{
+		$user = $this->get_user_by_login_name($user_login_name);
+		if($user){
+			$this->load->model('ufollow_model', 'ufollow');
+			$this->load->model('collect_model', 'collect');
+			$this->data['user']            = $user;
+			$this->data['collect_count']   = $this->collect->count(array('collect_user_id' 	=> $user['user_id']));
+			$this->data['following_count'] = $this->ufollow->count(array('ufollow_who' 		=> $user['user_id']));
+			$this->data['followers_count'] = $this->ufollow->count(array('ufollow_whom' 	=> $user['user_id']));
+			if($this->sess_user && $user['user_id'] != $this->sess_user['user_id']){
+				$this->data['ufollow_regard'] = $this->ufollow->get_regard($this->sess_user['user_id'], $user['user_id']);
+			}
+			return $user;
+		} else {
+			echo "404";
+			exit();
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 关注用户
+	 * ---------------------------
+	 *
+	 * @link /follow/$user_login_name
+	 * @return void
+	 */
+	function follow($user_login_name)
+	{
+		$user = $this->get_user_by_login_name($user_login_name);
+		$whom         = $user['user_id'];
+		$sess_user_id =  $this->sess_user['user_id'];
+		
+		if($user && $whom != $sess_user_id){
+			$this->load->model('ufollow_model', 'ufollow');
+			$regard = $this->ufollow->get_regard($sess_user_id, $whom);
+			switch ($regard) {
+				case UFOLLOW_REGARD_ACTIVE:
+					echo $this->ufollow->cancel($sess_user_id, $whom);
+					break;
+				case UFOLLOW_REGARD_PASSAVE:
+					echo $this->ufollow->change_regard($sess_user_id, $whom, UFOLLOW_REGARD_ACTIVE);
+					break;
+				case UFOLLOW_REGARD_NONE:
+					echo $this->ufollow->add($sess_user_id, $whom);
+					break;
+			}
+		}else {
+			echo "404";
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -61,7 +186,7 @@ class User extends ZG_Controller {
 	 * 插件 min登陆页面
 	 * ---------------------------
 	 *
-	 * @link /login
+	 * @link /m_login
 	 * @return void
 	 */
 	public function m_login() 
@@ -76,7 +201,6 @@ class User extends ZG_Controller {
 	 * 处理用户登陆操作
 	 * ---------------------------
 	 *
-	 * @link /login
 	 * @return void
 	 */
 	public function _login($page) 
@@ -95,7 +219,7 @@ class User extends ZG_Controller {
 			if($user){
 				$user = $user[0];
 				$this->session->set_userdata(SESSION_USER, $user);
-				$redirect_url = '/'.$user['user_login_name'];
+				$redirect_url = '/home';
 				if(isset($next_url))
 				{
 					$redirect_url = $next_url;
@@ -125,19 +249,26 @@ class User extends ZG_Controller {
 	public function signup()
 	{
 		if($this->is_post()){
-			$this->load->model('user_model', 'user');
-			$user = $_POST;
+			$auth       = $this->session->userdata(SESSION_AUTH);
+			$oauth_user = $this->session->userdata(SESSION_AUTH_USER);
+
+			$user                       = $_POST + $oauth_user;
 			$user['user_passwd']        = md5($user['user_passwd']);
 			$user['user_register_time'] = time();
+			$user['user_oauths']        = $auth['auth_source'];
+			if($auth['auth_source'] == AUTH_SOURCE_QQ){
+				$user['user_avatar'] = $user['user_avatar'].'/180';
+			}
 			$user_id = $this->user->insert($user);
-
-			$auth = $this->session->userdata(SESSION_AUTH);
 			if($auth){
 				$this->load->model('auth_model','auth');
 				$auth['auth_uid'] = $user_id;
+				$auth['auth_time'] = time();
 				$this->auth->insert($auth);
 			}
-			redirect('/');
+			$user['user_id'] = $user_id;
+			$this->session->set_userdata(SESSION_USER, $user);
+			redirect('/home');
 		}else{
 			$this->load->view('signup', $this->data);
 		}		

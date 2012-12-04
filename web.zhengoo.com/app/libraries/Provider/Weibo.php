@@ -120,7 +120,7 @@ class OAuth2_Provider_Weibo extends OAuth2_Provider
 	 * @param 	uid 需要查询的用户ID。 
 	 * @return 	用户详细信息数组
 	 */
-	public function get_user_by_id($uid)
+	public function get_user($uid)
 	{
 		$params        = $this->_req_before('users/show');
 		$params['uid'] = $uid;

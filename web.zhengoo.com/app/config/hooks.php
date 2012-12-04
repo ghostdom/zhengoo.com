@@ -22,7 +22,8 @@ $hook['post_controller_constructor'] = array(
                                			'user/login/',
                                     'user/m_login/',
                                			'user/signup/',
-                                    'main/tools/'
+                                    'main/tools/',
+                                  
                                 	)
                                 );
 

@@ -55,7 +55,7 @@ class App extends ZG_Admin_Controller {
 		$id_or_url = $this->input->get('id_or_url');
 		$app = $this->appstore->get_app_info($id_or_url);
 		if(!empty($app)){
-			$app_store_id = $this->appstore->get_appstore_id();
+			$app_store_id = $this->appstore->get_app_id();
 			$is_app = array_shift($this->app->find_by_store_id($app_store_id));
 			$iphone_screen = $app['iphone_screen'];
 			$ipad_screen   = $app['ipad_screen'];

@@ -19,6 +19,8 @@
         background-image: -ms-linear-gradient(white, #fafafa);
         background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #fafafa));
         background-image: -webkit-linear-gradient(white, #fafafa);
+        overflow-x:hidden;
+        overflow-y:hidden;
     }
     
     input {
@@ -41,7 +43,7 @@
 	</style>
 </head>
 
-<body>
+<body scroll="no">
 	<div id="frame-container">
         <h2 style="text-align: center;">珍果网</h2>
         <form id="login-form"  method="post" action='/m_login'>
@@ -61,7 +63,7 @@
         ?>
 
         <div class="clearfix">
-            <input class="btn btn-large btn-danger" type="submit" value="立即登录" style="float:right" />
+            <input class="btn btn-danger" type="submit" value="立即登录" style="float:right" />
         </div>
         </form>
 	</div>

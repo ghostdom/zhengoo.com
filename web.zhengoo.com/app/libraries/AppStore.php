@@ -121,9 +121,9 @@ class ZG_AppStore {
 	 * @return void
 	 */
 	private function _init_app_info($app_store_url){
-		preg_match('/http:\/\/itunes.apple.com(\/\w{2})?\/app(\/.*)?\/id([0-9]*)/', $app_store_url , $app_url_info);
+		preg_match('/(http|https):\/\/itunes.apple.com(\/\w{2})?\/app(\/.*)?\/id([0-9]*)/', $app_store_url , $app_url_info);
 		if(count($app_url_info) > 0){
-			$this->_app_store_id = $app_url_info[3];
+			$this->_app_store_id = $app_url_info[4];
 		}
 	}
 
@@ -230,6 +230,15 @@ class ZG_AppStore {
 				$this->_logger->info($app_info);
 				$local_category = $this->_ci->config->item('local_category');
 				$category = explode("|",$local_category[$app_info['primaryGenreId']]);
+				// $app_icons = array(
+				// 		'60' 	=> $app_info['artworkUrl60'],
+				// 		'100' 	=> $app_info['artworkUrl100'],
+				// 		'512'   => $app_info['artworkUrl512']
+				// 	);
+				$app_screens = array(
+						'iphone' 	=> $app_info['screenshotUrls'],
+						'ipad'		=> $app_info['ipadScreenshotUrls']
+					);
 				$app['app_category_id']   = $category[1];
 				$app['app_category_name'] = $category[0];
 				$app['app_title']         = $app_info['trackName'];
@@ -244,6 +253,7 @@ class ZG_AppStore {
 				$app['app_game_center']   = $app_info['isGameCenterEnabled'];
 				$app['app_release_notes'] = $app_info['releaseNotes'];
 				$app['app_icon']          = $app_info['artworkUrl512'];
+				$app['app_screens'] 	  = json_encode($app_screens);
 				$app['app_store_url']     = $app_info['trackViewUrl'];
 				$app['iphone_screen']     = $app_info['screenshotUrls'];
 				$app['ipad_screen']       = $app_info['ipadScreenshotUrls'];

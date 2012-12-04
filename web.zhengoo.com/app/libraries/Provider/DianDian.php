@@ -34,7 +34,6 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 	 * @var   return data
 	 */
 	public $format = 'json';
-
 	/**
 	 *
 	 */

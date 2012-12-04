@@ -10,7 +10,7 @@
 <body>
 	<?php $this->load->view('common/header');?>
 	<div  class="container">
-<!--  		<div class="span12">
+ 		<div class="span12">
  			<div class="row">
  				<?php //$this->load->view('common/left');?>
  				<div class="span10">
@@ -32,7 +32,7 @@
 	 				</div>
 				</div>
  			</div> 
- 		</div> -->
+ 		</div>
  		
 	</div>
 	 <?php $this->load->view('common/footer');?>
