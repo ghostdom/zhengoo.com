@@ -29,7 +29,7 @@ class Authorize extends ZG_Controller {
 
 	/**
 	 * ---------------------------
-	 * 
+	 * 初始化 oauth 模型类
 	 * ---------------------------
 	 *
 	 * @return void
@@ -39,15 +39,18 @@ class Authorize extends ZG_Controller {
 		$this->load->model('auth_model', 'auth');
 	}
 
-
 	// --------------------------------------------------------------------
 
 	/**
 	 * -------------------------------
 	 * 第三方授权登陆
-	 * - 支持 新浪微博
-	 * - 支持 点点网
-	 * - 支持 淘宝网 
+	 *
+	 * - 新浪微博
+	 * - 腾讯
+	 * - 点点网
+	 * - 淘宝网 
+	 * - pocket
+	 * - 微信
 	 * -------------------------------
 	 *
 	 * @return void
@@ -73,8 +76,16 @@ class Authorize extends ZG_Controller {
 	/**
 	 * -------------------------------
 	 * 处理认证后,授权信息
+	 *
+	 * - 如果首次授权 进入注册流程
+	 * - 授权已存在 检查access_token 如果
+	 * 有变化 则更新记录
+	 * - 注： 腾讯返回access_token 和标准不太一样 以做特殊处理
 	 * -------------------------------
 	 *
+	 * @param token  	第三方返回的token信息数据对象
+	 * @param source 	第三方标识
+	 * @param provider	第三方类实例
 	 * @return void
 	 */
 	private function _build_auth(array $token, $source, $provider)

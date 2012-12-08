@@ -13,7 +13,7 @@ class Collect extends ZG_Controller {
 
 	/**
 	 * ---------------------------
-	 * 
+	 * 加载收集模块类
 	 * 
 	 * ---------------------------
 	 *
@@ -28,7 +28,7 @@ class Collect extends ZG_Controller {
 
 	/**
 	 * ---------------------------
-	 * 
+	 * 添加收集
 	 * 
 	 * ---------------------------
 	 *
@@ -89,10 +89,12 @@ class Collect extends ZG_Controller {
 	
 	/**
 	 * ---------------------------
+	 * 另存收集 （收集别人的）
 	 * 
-	 * 
+	 * - ajax
 	 * ---------------------------
 	 *
+	 * 
 	 * @return void
 	 */
 	function save_as()
@@ -105,6 +107,39 @@ class Collect extends ZG_Controller {
 		$collect['collect_note'] 	= $collect['collect_note'] ? $collect['collect_note'] : $app_desc;
 		$collect_id = $this->collect->save($collect);
 		echo $collect_id;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 喜欢
+	 * 
+	 * - ajax
+	 * ---------------------------
+	 *
+	 * @link {base_url}/like{collect_title}-{collect_store_id}-{collect-id}
+	 * @param collect_sotre_id 	应用收集商店编号
+	 * @param collect_id 		收集编号
+	 * @return void
+	 */
+	function like($collect_store_id, $collect_id)
+	{
+		if($this->is_ajax())
+		{	$this->load->model('like_model', 'like');
+			$like = $this->like->find_where(array('like_uid' => $this->sess_user['user_id'], 'like_cid' => $collect_id));
+			if($like){
+				$this->like->delete($like[0]['like_id']);
+				echo -1;
+			}else{
+				$like['like_uid'] = $this->sess_user['user_id'];
+				$like['like_cid'] = $collect_id;
+				$like['like_store_id'] = $collect_store_id;
+				$like['like_time'] = time();
+				$this->like->insert($like);
+				echo 1;
+			}
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -135,10 +170,12 @@ class Collect extends ZG_Controller {
 
 	/**
 	 * ---------------------------
-	 * 
-	 * 
+	 * 查看收集的详细信息
 	 * ---------------------------
 	 *
+	 * @link {base_url}/{user_login_name}/{collect_title}-{collect_store_id}-{collect_id}
+	 * @param user_login_name   收集所属用户登录名
+	 * @param collect_id 		收集编号
 	 * @return void
 	 */
 	function info($user_login_name, $collect_id)
@@ -149,11 +186,13 @@ class Collect extends ZG_Controller {
 
 			$this->load->model('ufollow_model', 'ufollow');
 			$this->load->model('comment_model', 'comment');
+			$this->load->model('like_model', 'like');
 			$this->data['user']            = $user;
 			$this->data['collect']         = $this->collect->find_by_id_with_app($collect_id);
 			$this->data['comments'] 	   = $this->comment->find_by_cid_with_user($collect_id, $this->page);
 			$this->data['collect_count']   = $this->collect->count(array('collect_user_id' => $user['user_id']));
 			$this->data['followers_count'] = $this->ufollow->count(array('ufollow_whom' => $user['user_id']));
+			$this->data['like_count'] 	   = $this->like->count(array('like_cid'=> $collect_id));
 			$this->data['followers'] 	   = $this->ufollow->get_followers_with_user($user['user_id'], 1, 30);
 			if($this->sess_user && $user['user_id'] != $this->sess_user['user_id']){
 				$this->data['ufollow_regard'] = $this->ufollow->get_regard($this->sess_user['user_id'], $user['user_id']);
@@ -164,7 +203,6 @@ class Collect extends ZG_Controller {
 			echo "404";
 		}
 	}
-
 
 	// --------------------------------------------------------------------
 

@@ -13,7 +13,8 @@
 
 	</div>
 	<div class="profile-extra">
-		<?php 
+		<?php
+			$ufollow_class = ''; 
 			if(isset($sess_user) && $user['user_id'] == $sess_user['user_id']){
 		?>
 			<a class="btn" href="#"> <i class="icon icon-cog"></i> 个人设置</a>
@@ -21,7 +22,7 @@
 			} else {
 				if(isset($ufollow_regard))
 				{
-					$ufollow_class = '';
+					
 					if($ufollow_regard == UFOLLOW_REGARD_ACTIVE)
 					{
 						$ufollow_class = 'following';

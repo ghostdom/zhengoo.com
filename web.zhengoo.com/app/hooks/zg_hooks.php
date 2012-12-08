@@ -29,8 +29,8 @@ function check_session_user(array $controllers)
 {
 	$_ci = &get_instance(); 
 	if($_ci->uri->segment(1) != ADMIN_PATH){
-		$cur_controller = $_ci->uri->slash_rsegment(1) . $_ci->uri->slash_rsegment(2);
 		$cur_url        = current_url();
+		$cur_controller = $_ci->uri->slash_rsegment(1) . $_ci->uri->slash_rsegment(2);
 		if(!in_array($cur_controller, $controllers))
 		{
 			$sess_user = $_ci->session->userdata(SESSION_USER);

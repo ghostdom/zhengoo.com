@@ -39,32 +39,56 @@
 				function () { comment_hover($(this)) }
 			);
 
+			$('.collect-like').click(function (e) {
+				var like_str = $(this).find('span');
+				var like_num = parseInt($(this).find('span').attr('like-data'));
+				var uri = $(this).attr('href');
+				$.post(uri, function (data) {
+					like_num = like_num + parseInt(data);
+					like_str.attr('like-data', like_num);
+					if(like_num > 0){
+						like_str.text('喜欢('+like_num+')');
+					}else{
+						like_str.text('喜欢');
+					}
+				});
+				e.preventDefault();
+			});
+
 			$('.delete').click(function(e){
 				del_comment($(this));
 				e.preventDefault();
 			});
 
 			$('input.comment').click(function (e){ 
-				var comment_box = $(this).parents('form').find('textarea');
-				var comment_param = $(this).parents('form').serializeArray();
-				comment_box.attr('disabled',true);
-				$.post($(this).parents('form').attr('action'), comment_param, function (data){
-					$(data).filter('.collect-info-comment').appendTo('#comment-list');
-					$('#comment-list .collect-info-comment').hover(
-						function () { comment_hover($(this), 'enter') },
-						function () { comment_hover($(this)) }
-					);
-					$('#comment-list .collect-info-comment .delete').click(function (e) {
-						del_comment($(this));
-						e.preventDefault();
+				var comment_new_form =  $(this).parents('form');
+				var comment_box = comment_new_form.find('textarea');
+				
+				if(comment_box.val()){
+					var comment_param = comment_new_form.serializeArray();
+					comment_box.attr('disabled',true);
+					$.post(comment_new_form.attr('action'), comment_param, function (data){
+						$(data).filter('.collect-info-comment').appendTo('#comment-list');
+						$('#comment-list .collect-info-comment').hover(
+							function () { comment_hover($(this), 'enter') },
+							function () { comment_hover($(this)) }
+						);
+						$('#comment-list .collect-info-comment .delete').click(function (e) {
+							del_comment($(this));
+							e.preventDefault();
+						});
+						$('#comment-list li').removeClass('collect-info-comment');
+						comment_box.removeAttr('disabled').val('');
+						comment_new_form.find('.alert').alert('close');
 					});
-					$('#comment-list li').removeClass('collect-info-comment');
-					comment_box.removeAttr('disabled').val('');
-				});
+				}else{
+					comment_new_form.find('.alert').alert('close');
+					var tip = $('<div></div>').addClass('alert alert-error').html('<button type="button" class="close" data-dismiss="alert">×</button> <strong>提示：</strong>请正确填写评论!');
+					comment_new_form.prepend(tip);
+				}
 				e.preventDefault()
 			});
 		});
-
 		
 		//
 		// 删除评论

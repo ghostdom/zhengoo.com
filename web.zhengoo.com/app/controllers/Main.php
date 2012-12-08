@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * ZhenGoo Admin Data Center Controller
+ * ZhenGoo Main Controller
  *
  *
  * @package		ZhenGoo
@@ -11,17 +11,9 @@
  */
 class Main extends ZG_Controller {
 
-
-	/**
-	 * ---------------------------
-	 * 
-	 * ---------------------------
-	 *
-	 * @return void
-	 */
-	function __construct() {
-		parent::__construct();
-	}
+	// function __construct() {
+	// 	parent::__construct();
+	// }
 
 	// --------------------------------------------------------------------
 
@@ -29,7 +21,7 @@ class Main extends ZG_Controller {
 	 * ---------------------------
 	 * 网站主页
 	 * ---------------------------
-	 *
+	 * @link {base_url}
 	 * @return void
 	 */
 	function welcome()
@@ -42,11 +34,13 @@ class Main extends ZG_Controller {
 	/**
 	 * ---------------------------
 	 * 发现频道 所包含类型：
+	 *
 	 * - 精选 ：Staff Picks
 	 * - 流行 ：Popular
 	 * - 最新 ：Recent
 	 * ---------------------------
 	 *
+	 * @link {base_url}/discover/(staff-picks|popular|recent)
 	 * @return void
 	 */
 
@@ -66,6 +60,7 @@ class Main extends ZG_Controller {
 	 * 网站工具页面
 	 * ---------------------------
 	 *
+	 * @link {base_url}/tools 
 	 * @return void
 	 */
 	function tools() 

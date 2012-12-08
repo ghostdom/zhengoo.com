@@ -19,11 +19,13 @@ $hook['post_controller_constructor'] = array(
                                 'params'   => array(
                                			'authorize/auth/',
                                			'main/welcome/',
+                                    'main/discover/',
                                			'user/login/',
                                     'user/m_login/',
                                			'user/signup/',
+                                    'user/personal/',
                                     'main/tools/',
-                                  
+                                    
                                 	)
                                 );
 

@@ -59,27 +59,29 @@ $route[ADMIN_PATH.'/(:any)'] 		 = 'admin/$1';
  | -------------------------------------------------------------------------
  |
  */
-$route['(login|signup|logout|m_login)']         = 'user/$1'; 					
-$route['(weibo|qq|taobao|pocket|diandian|weixin)']     = 'authorize/auth/$1';
-$route['tools']                                 = 'main/tools';
-$route['home']                                  = 'user/home';
-$route['discover']                              = 'main/discover/staff-picks';
+$route['(login|signup|logout|m_login)']            = 'user/$1'; 					
+$route['(weibo|qq|taobao|pocket|diandian|weixin)'] = 'authorize/auth/$1';
+$route['tools']                                    = 'main/tools';
+$route['home']                                     = 'user/home';
+$route['discover']                                 = 'main/discover/staff-picks';
 
-$route['list/(:any)']                           = 'lists/$1';
-$route['app/(:any)']                            = 'app/$1';
-$route['collect/(:any)']                        = 'collect/$1';
+$route['list/(:any)']                              = 'lists/$1';
+$route['app/(:any)']                               = 'app/$1';
+$route['collect/(:any)']                           = 'collect/$1';
+$route['discover/(staff-picks|popular|recent)']    = 'main/discover/$1';
 
-$route['discover/(staff-picks|popular|recent)'] = 'main/discover/$1';
-$route['follow/(:any)/(:any)'] 					= 'lists/follow/$1/$2';
-$route['follow/(:any)']                         = 'user/follow/$1';
+$route['follow/(:any)/(:any)']                     = 'lists/follow/$1/$2';
+$route['follow/(:any)']                            = 'user/follow/$1';
+$route['comment/delete/(:num)']                    = 'comment/delete/$1';
+$route['comment/(:any)-(:num)-(:num)']             = 'comment/add/$2/$3';
+$route['(like|unlike)/(:any)-(:num)-(:num)']       = 'collect/like/$3/$4';
 
-$route['comment/delete/(:num)']					= 'comment/delete/$1';
+$route['(:any)/likes']                             = 'user/likes/$1';
 
-$route['comment/(:any)-(:num)-(:num)'] 			= 'comment/add/$2/$3';
-$route['(:any)/(:any)-(:num)-(:num)']           = 'collect/info/$1/$4/';
-$route['(:any)/(following|followers)']			= 'user/personal_$2/$1';
-$route['(:any)/(:any)']                         = 'collect/lists/$1/$2';
-$route['(:any)']                                = 'user/personal/$1';
+$route['(:any)/(:any)-(:num)-(:num)']              = 'collect/info/$1/$4/';
+$route['(:any)/(following|followers)']             = 'user/personal_$2/$1';
+$route['(:any)/(:any)']                            = 'collect/lists/$1/$2';
+$route['(:any)']                                   = 'user/personal/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

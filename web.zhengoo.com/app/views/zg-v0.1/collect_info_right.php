@@ -8,9 +8,9 @@
 				<div class="app-icon">
 					<img  src="<?=app_icon_175($collect['app_icon'])?>" style="float:left"/>
 					<span class="mask"></span>
-					<button class="btn">
+					<a href="<?=str_replace('https://','itms://', $collect['collect_link'])?>" class="btn">
 						<i class="icon icon-music"></i> 连接到iTunes
-					</button>
+					</a>
 				</div>
 				
 				<div class="app-mate">
@@ -25,7 +25,10 @@
 							<!-- <span>收录人 by <strong><a title="" href="#">轩宇同学</a></strong></span> -->
 							<span class="clip-date"><abbr title="收录时间:<?=date('Y-m-d H:m:s', $collect['collect_time'])?>" class="timeago"><i class="icon icon-time"></i> <abbr title="<?=date('Y-m-d H:m:s', $collect['collect_time'])?>" class="timeago"><?=format_date($collect['collect_time']) ?></abbr></abbr></span>
 							<div class="action-buttons">
-								<a href="#" class="btn btn-small"><i class="icon icon-thumbs-up"></i> 赞 (20)</a>
+								<a href="/like/<?=$user['user_login_name']?>/<?=$collect['collect_title']?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>" class="btn btn-small collect-like">
+									<i class="icon icon-heart"></i> 
+									<span like-data="<?=$like_count?>">喜欢<?php if($like_count > 0 ) echo '('.$like_count.')'; ?></span>
+								</a>
 								
 								<a href="javascript:;" data-content="
 									<form onsubmit='javascript:return false;'>

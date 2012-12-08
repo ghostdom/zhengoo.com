@@ -42,7 +42,7 @@
         							$ufollow_btn_class = 'user-follow btn ';
         							$ufollow_btn_val = '<i class="icon icon-plus icon-white"></i>  关注他';
         							$ufollow_btn_herf = '/follow/'.$user['user_login_name'];
-        							if($sess_user){
+        							if(isset($sess_user)){
         								if($sess_user['user_id'] != $user['user_id']){
         									$ufollow_regard = $this->ufollow->get_regard($sess_user['user_id'], $user['user_id']);
         									if($ufollow_regard == UFOLLOW_REGARD_ACTIVE){
@@ -57,7 +57,7 @@
         									$ufollow_btn_herf = 'javascript:;';
         								}
         							}else{
-        								$ufollow_btn_class = 'btn';
+        								$ufollow_btn_class = 'btn btn-danger';
         								$ufollow_btn_herf = '/login';
         							}
         						?>	
@@ -71,7 +71,7 @@
 										foreach ($user['collects'] as $collect) { 
 									?>
 									<li>
-										<a title="<?=$collect['collect_title']?>" href="<?=$user['user_login_name']?>/<?=rawurlencode($collect['collect_title'])?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>">
+										<a title="<?=$collect['collect_title']?>" href="/<?=$user['user_login_name']?>/<?=rawurlencode($collect['collect_title'])?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>">
 											<div class="widget-app">
 												<img width="75" height="75" src="<?=app_icon_75($collect['collect_icon'])?>"/>
 												<span class="mask"></span>

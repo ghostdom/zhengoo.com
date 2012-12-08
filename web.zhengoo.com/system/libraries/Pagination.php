@@ -26,39 +26,43 @@
  */
 class CI_Pagination {
 
-	var $base_url			= ''; // The page we are linking to
-	var $prefix				= ''; // A custom prefix added to the path.
-	var $suffix				= ''; // A custom suffix added to the path.
-
-	var $total_rows			=  0; // Total number of items (database results)
-	var $per_page			= 10; // Max number of items you want shown per page
-	var $num_links			=  2; // Number of "digit" links to show before/after the currently viewed page
-	var $cur_page			=  0; // The current page being viewed
-	var $use_page_numbers	= FALSE; // Use page number for segment instead of offset
-	var $first_link			= '&lsaquo; First';
-	var $next_link			= '&gt;';
-	var $prev_link			= '&lt;';
-	var $last_link			= 'Last &rsaquo;';
-	var $uri_segment		= 3;
-	var $full_tag_open		= '';
-	var $full_tag_close		= '';
-	var $first_tag_open		= '';
-	var $first_tag_close	= '&nbsp;';
-	var $last_tag_open		= '&nbsp;';
-	var $last_tag_close		= '';
-	var $first_url			= ''; // Alternative URL for the First Page.
-	var $cur_tag_open		= '&nbsp;<strong>';
-	var $cur_tag_close		= '</strong>';
-	var $next_tag_open		= '&nbsp;';
-	var $next_tag_close		= '&nbsp;';
-	var $prev_tag_open		= '&nbsp;';
-	var $prev_tag_close		= '';
-	var $num_tag_open		= '&nbsp;';
-	var $num_tag_close		= '';
-	var $page_query_string	= FALSE;
+	var $base_url             = ''; // The page we are linking to
+	var $prefix               = ''; // A custom prefix added to the path.
+	var $suffix               = ''; // A custom suffix added to the path.
+	
+	var $total_rows           =  0; // Total number of items (database results)
+	var $per_page             = 10; // Max number of items you want shown per page
+	var $num_links            =  2; // Number of "digit" links to show before/after the currently viewed page
+	var $cur_page             =  0; // The current page being viewed
+	var $use_page_numbers     = FALSE; // Use page number for segment instead of offset
+	var $first_link           = '&lsaquo; First';
+	var $next_link            = '&gt;';
+	var $prev_link            = '&lt;';
+	var $last_link            = 'Last &rsaquo;';
+	var $uri_segment          = 3;
+	var $full_tag_open        = '';
+	var $full_tag_close       = '';
+	var $first_tag_open       = '';
+	var $first_tag_close      = '&nbsp;';
+	var $last_tag_open        = '&nbsp;';
+	var $last_tag_close       = '';
+	var $first_url            = ''; // Alternative URL for the First Page.
+	var $cur_tag_open         = '&nbsp;<strong>';
+	var $cur_tag_close        = '</strong>';
+	var $next_tag_open        = '&nbsp;';
+	var $next_tag_close       = '&nbsp;';
+	var $next_last_tag_open   = '';
+	var $next_last_tag_close  = '';
+	var $prev_tag_open        = '&nbsp;';
+	var $prev_tag_close       = '';
+	var $prev_first_tag_open  = '';
+	var $prev_first_tag_close = ''; 
+	var $num_tag_open         = '&nbsp;';
+	var $num_tag_close        = '';
+	var $page_query_string    = FALSE;
 	var $query_string_segment = 'per_page';
-	var $display_pages		= TRUE;
-	var $anchor_class		= '';
+	var $display_pages        = TRUE;
+	var $anchor_class         = '';
 
 	/**
 	 * Constructor
@@ -232,8 +236,9 @@ class CI_Pagination {
 		}
 
 		// Render the "previous" link
-		if  ($this->prev_link !== FALSE AND $this->cur_page != 1)
+		if  ($this->prev_link !== FALSE)
 		{
+
 			if ($this->use_page_numbers)
 			{
 				$i = $uri_page_number - 1;
@@ -251,6 +256,11 @@ class CI_Pagination {
 			{
 				$i = ($i == 0) ? '' : $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
+			}
+
+			if($this->cur_page == 1) 
+			{
+				$output = $this->prev_first_tag_open.$this->prev_link.$this->prev_first_tag_close;
 			}
 
 		}
@@ -296,7 +306,7 @@ class CI_Pagination {
 		}
 
 		// Render the "next" link
-		if ($this->next_link !== FALSE AND $this->cur_page < $num_pages)
+		if ($this->next_link !== FALSE AND $this->cur_page <= $num_pages)
 		{
 			if ($this->use_page_numbers)
 			{
@@ -307,7 +317,16 @@ class CI_Pagination {
 				$i = ($this->cur_page * $this->per_page);
 			}
 
-			$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
+
+			if($this->cur_page == $num_pages)
+			{
+				$output .= $this->next_last_tag_open.$this->next_link.$this->next_last_tag_close;
+			}
+			else
+			{
+				$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
+			}
+
 		}
 
 		// Render the "Last" link

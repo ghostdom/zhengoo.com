@@ -13,7 +13,7 @@ class User extends ZG_Controller {
 
 	/**
 	 * ---------------------------
-	 * 
+	 * 初始化用户模型类
 	 * ---------------------------
 	 *
 	 * @return void
@@ -38,14 +38,40 @@ class User extends ZG_Controller {
 	{
 		$this->load->model('collect_model', 'collect');
 		$this->load->model('comment_model', 'comment');
+		$this->load->model('like_model', 'like');
 		$collects = $this->collect->find_by_ufollow($this->sess_user['user_id'], $this->page);
 		foreach ($collects as $i => $collect) {
 			$collect['comments']      = $this->comment->find_by_cid_with_user($collect['collect_id'], 1, 2);
 			$collect['comment_count'] = $this->comment->count(array('comment_cid' => $collect['collect_id']));
+			$collect['like_count']    = $this->like->count(array('like_cid' => $collect['collect_id'])); 
 			$collects[$i] = $collect;
 		}
 		$this->data['collects'] = $collects;
 		$this->load->view('home', $this->data);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 用户自己喜欢的应用收集
+	 * ---------------------------
+	 *
+	 * @link  /{user_login_name}/likes
+	 * @param user_login_name
+	 * @return void
+	 */
+	function likes($user_login_name) 
+	{
+		if($user_login_name == $this->sess_user['user_login_name']){
+			$this->load->library('pagination');
+			$this->load->model('like_model', 'like');
+			$this->data['collects']      = $this->like->find_by_uid_with_collect($this->sess_user['user_id'], $this->page);
+			$this->data['collect_count'] = $this->like->count(array('like_uid' => $this->sess_user['user_id']));
+			$this->load->view('home_like', $this->data);
+		}else{
+			echo '404';
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -288,13 +314,6 @@ class User extends ZG_Controller {
 	{
 		$this->session->unset_userdata(SESSION_USER);
 		redirect('/');
-	}
-
-	// --------------------------------------------------------------------
-
-	public function ajax_verify($user_field, $value)
-	{
-
 	}
 
 	// --------------------------------------------------------------------

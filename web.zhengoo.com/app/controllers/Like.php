@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * ZhenGoo App Controller
+ * ZhenGoo Like Controller
  *
  *
  * @package		ZhenGoo
@@ -9,22 +9,13 @@
  * @author		Ghostdom.wj <ghostdom.wj@gmail.com>
  * @link		http://www.ZhenGoo.com
  */
-class App extends ZG_Controller {
-
-	/**
-	 * ---------------------------
-	 * - 加载 App 和 分类 模型
-	 * - 获取所有分类
-	 * ---------------------------
-	 *
-	 * @return void
-	 */
-	function __construct() {
-		parent::__construct();
-		$this->load->model('app_model', 'app');
-	}
+class Like extends ZG_Controller {
 
 	// --------------------------------------------------------------------
 
+	function unlike($user_login_name, $collect_id) 
+	{
+		
+	}
 
 }

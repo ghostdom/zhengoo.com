@@ -15,7 +15,7 @@
 		<div class="app-bg">
 			<div class="row">
 				<?php $this->load->view('home_left');?>
-				<?php $this->load->view('home_right');?>
+				<?php $this->load->view('home_feed');?>
 			</div>
 		</div>
 	</div>
@@ -34,9 +34,25 @@
 				}
 			);
 
-			$('.comment').click(function (e){
+			$('.collect-comment').click(function (e){
 				$(this).parents('div.collect-item').find('.feed-comments .reply').show();
 				$(this).parents('div.collect-item').find('.feed-comments .reply input').focus();
+				e.preventDefault();
+			});
+
+			$('.collect-like').click(function (e) {
+				var like_str = $(this).find('span');
+				var like_num = parseInt($(this).find('span').attr('like-data'));
+				var uri = $(this).attr('href');
+				$.post(uri, function (data) {
+					like_num = like_num + parseInt(data);
+					like_str.attr('like-data', like_num);
+					if(like_num > 0){
+						like_str.text('喜欢('+like_num+')');
+					}else{
+						like_str.text('喜欢');
+					}
+				});
 				e.preventDefault();
 			});
 
