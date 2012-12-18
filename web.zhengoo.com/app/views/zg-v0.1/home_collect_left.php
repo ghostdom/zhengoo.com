@@ -7,12 +7,25 @@
 		?>
 		<li class="collect">
 			<div class="collect-content">
-				
 				<span class="collect-date">
 					<!-- <i  class="icon icon-time"></i> -->
-					<abbr><?=format_date($collect['like_time']) ?></abbr>
+					<?php 
+						if($this->uri->segment(2) == 'likes'){
+							$time = $collect['like_time'];
+							$segment = 'unlike'; 
+						}else {
+							$time = $collect['collect_time'];
+							$segment = 'remove';
+						}
+					?>
+					<abbr><?=format_date($time)?></abbr>
 				</span>
 				<ul class="actions">
+					<li>
+        				<a rel="tooltip" data-original-title="iTunes中打开" href="<?=str_replace('https://','itms://', $collect['collect_link'])?>" >
+        					<i class="icon icon-music"></i>
+        				</a>
+        			</li>
 					<li>
         				<a rel="tooltip" data-original-title="分享" href="#" >
         					<i class="icon icon-share"></i>
@@ -20,7 +33,7 @@
         			</li>
         		
         			<li>
-        				<a class="like-delete" rel="tooltip" data-original-title="删除" href="/unlike/<?=rawurlencode($collect['collect_title'])?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>">
+        				<a class="collect-delete" rel="tooltip" data-original-title="删除" href="/<?=$segment?>/<?=rawurlencode($collect['collect_title'])?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>">
         					<i class="icon icon-remove"></i>
         				</a>
         			</li>
@@ -68,6 +81,6 @@
 		} 
 		?>
 	</ul>
-		<?php $this->load->view('common/pagination' , array('base_url' => uri_string(), 'total_rows' => $collect_count)); ?>
+		<?php $this->load->view('common/pagination' , array('base_url' => uri_string(), 'total_rows' => $collect_count, 'sizes' => 'large')); ?>
 </div>
 

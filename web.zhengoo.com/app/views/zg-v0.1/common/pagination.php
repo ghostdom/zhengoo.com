@@ -1,11 +1,14 @@
 <?php 
 	
+	$sizes  = isset($sizes) ? $sizes : '';
+
 	$config['base_url']             = '/'.$base_url.'?';
 	$config['total_rows']           = $total_rows;
 	$config['per_page']             = DEFAULT_PAGE_NUM;
+
 	
 	
-	$config['full_tag_open']        = '<div class="pagination pagination-large pagination-centered"><ul>';
+	$config['full_tag_open']        = '<div class="pagination pagination-'.$sizes.' pagination-centered"><ul>';
 	$config['full_tag_close']       = '</ul></div>';
 	
 	$config['first_link']           = FALSE;

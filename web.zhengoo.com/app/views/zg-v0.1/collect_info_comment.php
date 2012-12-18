@@ -4,7 +4,6 @@
             foreach ($comments as $comment) {
         ?>
         <li>
-
             <a title="<?=$comment['user_nice_name']?>" href="/<?=$comment['user_login_name']?>"><img alt="<?=$comment['user_nice_name']?>" class="avatar" src="<?=$comment['user_avatar']?>"></a>
             <div>
                 <div class="user">
@@ -29,6 +28,8 @@
 	</ul>
 
 	<form class="new-comment" action="/comment/<?=rawurlencode($collect['collect_title'])?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>" >
+        <input type="hidden" name="comment_whom" value="<?=$collect['collect_user_id']?>"/>
+        <input type="hidden" name="comment_title" value="<?=$collect['collect_title']?>"/>
         <img width="42" height="42" title="<?$sess_user['user_nice_name']?>" class="avatar" src="<?=$sess_user['user_avatar']?>">
         <textarea name="comment_body" placeholder="发表下自己的看法..." ></textarea>
         <div class="actions">

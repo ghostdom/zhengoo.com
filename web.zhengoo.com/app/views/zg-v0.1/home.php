@@ -36,7 +36,7 @@
 
 			$('.collect-comment').click(function (e){
 				$(this).parents('div.collect-item').find('.feed-comments .reply').show();
-				$(this).parents('div.collect-item').find('.feed-comments .reply input').focus();
+				$(this).parents('div.collect-item').find('.feed-comments .reply input[name="comment_body"]').focus();
 				e.preventDefault();
 			});
 
@@ -58,7 +58,7 @@
 
 			$('.btn-comment').click(function (e){
 				var comment_form      = $(this).parents('form');
-				var comment_input     = comment_form.find('input');
+				var comment_input     = comment_form.find('input[name="comment_body"]');
 				var comment_input_box = $(this).parents('.reply')
 
 				if(comment_input.val()){

@@ -27,6 +27,7 @@ $config['weibo_app_key']    = 2862748413;
 $config['weibo_app_secret'] = '563ff72a8a349d81af28103fa7f3101e';
 $config['weibo_user_name']  = 'sns@zhengoo.com';
 $config['weibo_password']   = 'zhengoo_sns';
+$config['weibo_home_url']   = 'http://www.weibo.com/';
 
 // --------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ $config['qq_app_key']    = 100330084; //qq互联
 $config['qq_app_secret'] = 'b05407ad5d5c4677deb462076479cf7a'; 
 // $config['qq_app_key']    = 100627363;
 // $config['qq_app_secret'] = '452735d1d591c14c84e6556375466188';
+$config['qq_home_url']   = 'http://t.qq.com/';
 
 // --------------------------------------------------------------------
 
@@ -132,12 +134,14 @@ $config['500px_app_secret']		= 'LXuUjh4yDpv1vsvQOZac9MH5i9hVcGDJf2h0xoOW';
 $config['weibo_auth'] 	= array(
 	'access_token' => 'auth_access_token',
 	'expires_in'   => 'auth_expired_time',
-	'uid'          => 'auth_user'
+	'uid'          => 'auth_user',
+	'auth_domain'  => 'id'
 );
 
 $config['qq_auth'] 	= array(
 	'access_token' => 'auth_access_token',
 	'expires_in'   => 'auth_expired_time',
+	'auth_domain'  => 'name'
 );
 
 $config['taobao_auth'] 	= array(
@@ -169,7 +173,7 @@ $config['diandian_auth'] = array(
 
 $config['weibo_user'] = array(
 	'screen_name' => 'user_nice_name',
-	'avatar_large' => 'user_avatar'
+	'avatar_large' => 'user_avatar',
 );
 
 $config['qq_user'] = array(

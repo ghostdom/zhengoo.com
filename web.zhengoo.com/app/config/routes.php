@@ -75,8 +75,13 @@ $route['follow/(:any)']                            = 'user/follow/$1';
 $route['comment/delete/(:num)']                    = 'comment/delete/$1';
 $route['comment/(:any)-(:num)-(:num)']             = 'comment/add/$2/$3';
 $route['(like|unlike)/(:any)-(:num)-(:num)']       = 'collect/like/$3/$4';
+$route['remove/(:any)-(:num)-(:num)']       	   = 'collect/remove/$3';
 
-$route['(:any)/likes']                             = 'user/likes/$1';
+$route['(:any)/comment/(inbox|outbox)'] 		   = 'user/comment/$1/$2';
+$route['(:any)/(likes|inbox)']             		   = 'user/$2/$1';
+$route['(:any)/(weibo|qq)'] 					   = 'authorize/home/$1/$2';
+
+
 
 $route['(:any)/(:any)-(:num)-(:num)']              = 'collect/info/$1/$4/';
 $route['(:any)/(following|followers)']             = 'user/personal_$2/$1';

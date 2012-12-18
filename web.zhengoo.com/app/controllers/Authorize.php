@@ -73,6 +73,31 @@ class Authorize extends ZG_Controller {
 
 	// --------------------------------------------------------------------
 
+
+	/**
+	 * -------------------------------
+	 * 跳转第三方用户主页
+	 *
+	 * -------------------------------
+	 *
+	 * @return void
+	 */
+	public function home($user_login_name, $auth_source_str)
+	{
+		$user = $this->get_user_by_login_name($user_login_name);
+		if($user){
+			$this->load->config('auth');
+			$auth_source = name_to_source($auth_source_str);
+			$auth = $this->auth->find_where(array('auth_uid' => $user['user_id'], 'auth_source' => $auth_source));
+			$home_url = $this->config->item($auth_source_str.'_home_url') . $auth[0]['auth_domain'];
+			redirect($home_url);
+		}else{
+			echo '404';
+		}
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * -------------------------------
 	 * 处理认证后,授权信息
@@ -92,9 +117,13 @@ class Authorize extends ZG_Controller {
 	{
 		$this->load->config('auth');
 		$this->load->helper('auth');
+		$this->_logger->info($token);
 		$auth_key = $this->config->item($source.'_auth');
+		
 		foreach ($auth_key as $key => $value) {
-			$auth[$value] = $token[$key];
+			if($key != 'auth_domain'){
+				$auth[$value] = $token[$key];
+			}
 		}
 		$auth_source         = name_to_source($source);
 		$auth['auth_source'] = $auth_source;
@@ -119,13 +148,18 @@ class Authorize extends ZG_Controller {
 			} else {
 				$oauth_user = $provider->get_user($auth['auth_user']);
 			}
+			
 			$user_key = $this->config->item($source.'_user');
 			foreach ($user_key as $key => $value) {
 				$user[$value] = $oauth_user[$key];
 			}
-			$this->session->set_userdata(SESSION_AUTH, $auth);
+			$auth['auth_domain'] = $oauth_user[$auth_key['auth_domain']];
+
+			// $this->_logger->info($auth);
+ 			$this->session->set_userdata(SESSION_AUTH, $auth);
 			$this->session->set_userdata(SESSION_AUTH_USER, $user);
 			redirect('/signup');
 		}
 	}
+
 }

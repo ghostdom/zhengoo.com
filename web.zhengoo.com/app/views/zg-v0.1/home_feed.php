@@ -112,6 +112,8 @@
 					</ul>
 					<div class="reply" <?php if(empty($collect['comments'])) { ?> style="display:none" <?php } ?>  >
 			            <form action="/comment/<?=rawurlencode($collect['collect_title'])?>-<?=$collect['collect_store_id']?>-<?=$collect['collect_id']?>" class="add-comment">
+			                <input type="hidden" name="comment_whom" value="<?=$collect['collect_user_id']?>"/>
+			                <input type="hidden" name="comment_title" value="<?=$collect['collect_title']?>"/>
 			                <img src="<?=$sess_user['user_avatar']?>" width="32" class="avatar">
 			                <input name="comment_body" type="text" placeholder="你敢发表下点自己的意见吗..." />
 			                <button class="btn btn-small btn-comment">评论</button>

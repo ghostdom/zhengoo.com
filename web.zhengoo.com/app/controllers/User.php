@@ -54,6 +54,29 @@ class User extends ZG_Controller {
 
 	/**
 	 * ---------------------------
+	 * 查看自己的所有收集
+	 * ---------------------------
+	 *
+	 * @link  /{user_login_name}/inbox
+	 * @return void
+	 */
+	function inbox($user_login_name)
+	{
+		if($user_login_name == $this->sess_user['user_login_name']){
+			$this->load->library('pagination');
+			$this->load->model('collect_model', 'collect');
+			$this->data['collects'] = $this->collect->find_by_uid($this->sess_user['user_id'], $this->page);
+			$this->data['collect_count'] = $this->collect->count(array('collect_user_id' => $this->sess_user['user_id']));
+			$this->load->view('home_collects', $this->data);
+		} else {
+			echo '404';
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
 	 * 用户自己喜欢的应用收集
 	 * ---------------------------
 	 *
@@ -68,8 +91,41 @@ class User extends ZG_Controller {
 			$this->load->model('like_model', 'like');
 			$this->data['collects']      = $this->like->find_by_uid_with_collect($this->sess_user['user_id'], $this->page);
 			$this->data['collect_count'] = $this->like->count(array('like_uid' => $this->sess_user['user_id']));
-			$this->load->view('home_like', $this->data);
+			$this->load->view('home_collects', $this->data);
 		}else{
+			echo '404';
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 查看用户被评论的信息和自己评论过的应用
+	 *
+	 * - inbox 	收到的评论
+	 * - outbox 发出的评论
+	 * ---------------------------
+	 *
+	 * @link  /{user_login_name}/commnet/(inbox|outbox)
+	 * @param user_login_name 用户登录名
+	 * @param type 	数据类型（收到的评论|发出的评论）
+	 * @return void
+	 */
+	function comment($user_login_name, $type = 'inbox')
+	{
+		if($user_login_name == $this->sess_user['user_login_name']){
+			$this->load->library('pagination');
+			$this->load->model('comment_model', 'comment');
+			$this->data['inbox_comment_count'] = $this->comment->count(array('comment_whom' => $this->sess_user['user_id'], 'comment_uid != comment_whom' => NULL));
+			$this->data['outbox_comment_count'] = $this->comment->count(array('comment_uid' => $this->sess_user['user_id'], 'comment_uid != comment_whom' => NULL));
+			if($type == 'inbox'){
+				$this->data['comments'] = $this->comment->find_by_whom_with_user($this->sess_user['user_id'], $this->page);
+			}else{
+				$this->data['comments'] = $this->comment->find_by_uid_with_user($this->sess_user['user_id'], $this->page);
+			}
+			$this->load->view('home_comment', $this->data);
+		} else {
 			echo '404';
 		}
 	}
@@ -87,7 +143,7 @@ class User extends ZG_Controller {
 	function personal($user_login_name)
 	{
 		$user = $this->_personal_top_data($user_login_name);
-		$this->data['collects'] = $this->collect->get_by_user_id($user['user_id'], $this->page, 40);
+		$this->data['collects'] = $this->collect->find_by_uid($user['user_id'], $this->page);
 		$this->load->view('personal', $this->data);
 	}
 	

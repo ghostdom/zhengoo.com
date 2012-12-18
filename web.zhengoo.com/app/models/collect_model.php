@@ -100,7 +100,7 @@ class Collect_Model extends ZG_Model {
 	 * @param page_num 	分页数量
 	 * @return array  	收集集合
 	 */
-	function get_by_user_id($user_id, $page = 1, $page_num = 40)
+	function find_by_uid($user_id, $page = 1, $page_num = DEFAULT_PAGE_NUM)
 	{
 		$this->db->order_by('collect_time', 'desc');
 		return $this->find_by_user_id($user_id, $page, $page_num);

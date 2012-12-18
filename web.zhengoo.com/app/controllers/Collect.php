@@ -86,6 +86,27 @@ class Collect extends ZG_Controller {
 	}
 
 	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 删除自己的收集
+	 * 
+	 * - ajax
+	 * ---------------------------
+	 *
+	 * 
+	 * @return void
+	 */
+	function remove($collect_id)
+	{
+		if($this->is_ajax()){
+			echo $this->collect->delete_where(array('collect_user_id' => $this->sess_user['user_id'], 'collect_id' => $collect_id));
+		}else{
+			echo '404';
+		}
+	}
+
+	// --------------------------------------------------------------------
 	
 	/**
 	 * ---------------------------

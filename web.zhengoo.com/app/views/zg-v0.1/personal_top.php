@@ -1,3 +1,4 @@
+
 <div class="profile-head row">
 	<div class="span2">
 		<img class="avatar" src="<?=$user['user_avatar']?>" />
@@ -6,7 +7,8 @@
 		<h1><?=$user['user_nice_name']?></h1>
 	    <p>
 	    	<?php 
-	    		if($user['user_signature'])
+
+	    		if(isset($user['user_signature']) && $user['user_signature'])
 	    			echo $user['user_signature'];
 	    	?>
 	    </p>
@@ -51,7 +53,7 @@
 				$oauths = explode('|', $user['user_oauths']);
 				foreach ($oauths as $source) {
 			?>
-			<a title="" class="logo-btn-min logo-btn-min-<?=source_to_name($source)?>" href="#"></a>
+			<a href="/<?=$user['user_login_name']?>/<?=source_to_name($source)?>" class="logo-btn-min logo-btn-min-<?=source_to_name($source)?>" target="_blank"></a>
 			<?php
 				}
 			?>

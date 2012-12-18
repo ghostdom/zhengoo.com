@@ -3,10 +3,10 @@
   		<li><a href="/home"><i class="icon icon-home"></i> 我的首页 </a></li>
   		<li class="divider"></li>
   		<!-- class="active" -->
-  		<li><a href=""><i class="icon icon-inbox"></i> 所有应用</a></li>
+  		<li><a href="/<?=$sess_user['user_login_name']?>/inbox"><i class="icon icon-inbox"></i> 所有应用</a></li>
   		<li><a href=""><i class="icon icon-star"></i> 已加标星</a></li>
   		<li><a href="/<?=$sess_user['user_login_name']?>/likes"><i class="icon icon-heart"></i> 喜欢</a></li>
-      <li><a href=""><i class="icon icon-comment"></i> 评论</a></li>
+      <li><a href="/<?=$sess_user['user_login_name']?>/comment/inbox"><i class="icon icon-comment"></i> 评论</a></li>
   		<li class="divider"></li>
   		
 <!--       <li><a href="#"><i class="icon icon-list-alt"></i> 分组</a></li>

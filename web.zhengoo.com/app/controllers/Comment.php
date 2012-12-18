@@ -43,10 +43,11 @@ class Comment extends ZG_Controller {
 	{
 		if($this->sess_user && $this->is_ajax())
 		{
+			$comment = $_POST;
 			$comment['comment_uid']      = $this->sess_user['user_id'];
 			$comment['comment_cid']      = $comment_cid;
 			$comment['comment_store_id'] = $comment_store_id;
-			$comment['comment_body']     = $this->input->post('comment_body');
+			// $comment['comment_body']     = $this->input->post('comment_body');
 			$comment['comment_time']     = time();
 			$comment['comment_id']       = $this->comment->insert($comment);
 			
@@ -60,7 +61,6 @@ class Comment extends ZG_Controller {
 	/**
 	 * ---------------------------
 	 * 删除自己发布的评论信息
-	 * 
 	 * ---------------------------
 	 * 
 	 * @link 
@@ -70,7 +70,7 @@ class Comment extends ZG_Controller {
 	function delete($comment_id)
 	{
 		if($this->sess_user){
-			echo $this->comment->delete_where(array('comment_uid' => $this->sess_user['user_id'], 'comment_id' => $comment_id));
+			echo $this->comment->delete_comment($comment_id, $this->sess_user['user_id']);
 		}else{
 			echo "404";
 		}

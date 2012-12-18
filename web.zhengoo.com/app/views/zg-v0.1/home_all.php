@@ -13,7 +13,7 @@
 		<div class="app-bg">
 			<div class="row">
 				<?php $this->load->view('home_left');?>
-				<?php $this->load->view('home_like_list');?>
+				<?php $this->load->view('home_collect_list', array('view' => 'like'));?>
 			</div>
 		</div>
 	</div>
@@ -36,7 +36,7 @@
 			);
 
 			$('.like-delete').click(function (e) {
-				if(window.confirm('你确定要删除该评论！')){
+				if(window.confirm('你确定要删除?')){
 					var like_item = $(this);
 					$.post(like_item.attr('href'), function (data) {
 						if(parseInt(data) == -1){
