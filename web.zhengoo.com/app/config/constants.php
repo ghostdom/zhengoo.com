@@ -36,7 +36,7 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
-define('DEFAULT_PAGE_NUM', 						5);
+define('DEFAULT_PAGE_NUM', 						50);
 
 define('ADMIN_PATH', 							'admin');
 
@@ -108,12 +108,26 @@ define('ZG_SOURCE_ANDROID', 					6);			//android
 | 
 */
 define('AUTH_SOURCE_WEIBO', 	1); // 第三方平台: 新浪微博
-define('AUTH_SOURCE_QQ', 		2); 	// 第三方平台: 淘宝网
+define('AUTH_SOURCE_QQ', 		2); // 第三方平台: 腾讯QQ
 define('AUTH_SOURCE_RENREN', 	3); // 第三方平台: 人人网
 define('AUTH_SOURCE_POCKET', 	4); // 第三方平台: Pocket
 define('AUTH_SOURCE_TAOBAO', 	5); // 第三方平台: 淘宝网
 define('AUTH_SOURCE_DIANDIAN', 	6); // 第三方平台: 点点
+define('AUTH_SOURCE_EVERNOTE', 	7); // 第三方平台: 印象笔记
+define('AUTH_SOURCE_WEIXIN', 	8); // 第三方平台: 微信
+define('AUTH_SOURCE_MKNOTE',  	9); // 第三方平台: 麦库笔记
+define('AUTH_SOURCE_DOUBAN', 	10); //第三方平台： 豆瓣网
 
+define('AUTH_SOURCE_NAME_WEIBO', 	'weibo');
+define('AUTH_SOURCE_NAME_QQ', 		'qq');
+define('AUTH_SOURCE_NAME_RENREN',  	'renren');
+define('AUTH_SOURCE_NAME_POCKET', 	'pocket');
+define('AUTH_SOURCE_NAME_TAOBAO', 	'taobao');
+define('AUTH_SOURCE_NAME_DIANDIAN',	'diandian');
+define('AUTH_SOURCE_NAME_EVERNOTE', 'evernote');
+define('AUTH_SOURCE_NAME_WEIXIN', 	'weixin');
+define('AUTH_SOURCE_NAME_MKNOTE', 	'mknote');
+define('AUTH_SOURCE_NAME_DOUBAN', 	'douban');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

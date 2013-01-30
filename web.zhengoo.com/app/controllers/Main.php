@@ -26,7 +26,11 @@ class Main extends ZG_Controller {
 	 */
 	function welcome()
 	{
-		$this->load->view('index', $this->data);
+		// $this->load->view('index', $this->data);
+		if($this->sess_user)
+		{
+			redirect('/home');
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -66,6 +70,22 @@ class Main extends ZG_Controller {
 	function tools() 
 	{
 		$this->load->view('tools', $this->data);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 网站提示信息
+	 * ---------------------------
+	 *
+	 * @link {base_url}/message 
+	 * @return void
+	 */
+	function message()
+	{
+		$this->data['msg'] = $this->session->flashdata('msg');
+		$this->load->view('message', $this->data);
 	}
 
 }

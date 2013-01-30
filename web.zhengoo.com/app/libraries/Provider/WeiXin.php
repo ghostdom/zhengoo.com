@@ -11,6 +11,9 @@
 
 class OAuth2_Provider_WeiXin extends OAuth2_Provider 
 {
+	public $source 		= AUTH_SOURCE_NAME_WEIXIN;
+	
+	public $source_code = AUTH_SOURCE_WEIXIN; 
 
 	/**
 	 * @var  string  the method to use when requesting tokens

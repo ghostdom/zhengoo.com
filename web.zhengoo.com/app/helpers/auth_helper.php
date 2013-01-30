@@ -47,18 +47,27 @@ if ( ! function_exists('source_to_name'))
 	{
 		switch ($name)
 		{
-			case 'weibo':
+			case AUTH_SOURCE_NAME_WEIBO:
 				return AUTH_SOURCE_WEIBO;
-			case 'diandian':
+			case AUTH_SOURCE_NAME_DIANDIAN:
 				return AUTH_SOURCE_DIANDIAN;
-			case 'renren':
+			case AUTH_SOURCE_NAME_RENREN:
 				return AUTH_SOURCE_RENREN;
-			case 'pocket':
+			case AUTH_SOURCE_NAME_POCKET:
 				return AUTH_SOURCE_POCKET;
-			case 'taobao':
+			case AUTH_SOURCE_NAME_TAOBAO:
 				return AUTH_SOURCE_TAOBAO;
-			case 'qq':
+			case AUTH_SOURCE_NAME_QQ:
 				return AUTH_SOURCE_QQ;
+			case AUTH_SOURCE_NAME_EVERNOTE:
+				return AUTH_SOURCE_EVERNOTE;
+			case AUTH_SOURCE_NAME_WEIXIN:
+				return AUTH_SOURCE_WEIBO;
+			case AUTH_SOURCE_NAME_MKNOTE:
+				return AUTH_SOURCE_MKNOTE;
+			case AUTH_SOURCE_NAME_DOUBAN:
+				return AUTH_SOURCE_DOUBAN;
+
 		}
 	}
 }
@@ -86,18 +95,25 @@ if ( ! function_exists('source_to_name'))
 		switch ($source)
 		{
 			case AUTH_SOURCE_WEIBO:
-				return 'weibo';
+				return AUTH_SOURCE_NAME_WEIBO;
 			case AUTH_SOURCE_QQ:
-				return 'qq';
+				return AUTH_SOURCE_NAME_QQ;
 			case AUTH_SOURCE_DIANDIAN:
-				return 'diandian';
+				return AUTH_SOURCE_NAME_DIANDIAN;
 			case AUTH_SOURCE_RENREN:
-				return 'renren';
+				return AUTH_SOURCE_NAME_RENREN;
 			case AUTH_SOURCE_POCKET:
-				return 'pocket';
+				return AUTH_SOURCE_NAME_POCKET;
 			case AUTH_SOURCE_TAOBAO:
-				return 'taobao';
-			;
+				return AUTH_SOURCE_NAME_TAOBAO;
+			case AUTH_SOURCE_EVERNOTE:
+				return AUTH_SOURCE_NAME_EVERNOTE;
+			case AUTH_SOURCE_WEIXIN:
+				return AUTH_SOURCE_NAME_WEIXIN;
+			case AUTH_SOURCE_MKNOTE:
+				return AUTH_SOURCE_NAME_MKNOTE;
+			case AUTH_SOURCE_DOUBAN:
+				return AUTH_SOURCE_NAME_DOUBAN;
 		}
 	}
 }

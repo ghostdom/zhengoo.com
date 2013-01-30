@@ -36,18 +36,23 @@ class User extends ZG_Controller {
 	 */
 	function home() 
 	{
-		$this->load->model('collect_model', 'collect');
-		$this->load->model('comment_model', 'comment');
-		$this->load->model('like_model', 'like');
-		$collects = $this->collect->find_by_ufollow($this->sess_user['user_id'], $this->page);
-		foreach ($collects as $i => $collect) {
-			$collect['comments']      = $this->comment->find_by_cid_with_user($collect['collect_id'], 1, 2);
-			$collect['comment_count'] = $this->comment->count(array('comment_cid' => $collect['collect_id']));
-			$collect['like_count']    = $this->like->count(array('like_cid' => $collect['collect_id'])); 
-			$collects[$i] = $collect;
+		if($this->is_ajax()){
+			$this->load->model('collect_model', 'collect');
+			$this->load->model('comment_model', 'comment');
+			$this->load->model('like_model', 'like');
+			$collects = $this->collect->find_by_ufollow($this->sess_user['user_id'], $this->page);
+			foreach ($collects as $i => $collect) {
+				$collect['comments']      = $this->comment->find_by_cid_with_user($collect['collect_id'], 1, 2);
+				$collect['comment_count'] = $this->comment->count(array('comment_cid' => $collect['collect_id']));
+				$collect['like_count']    = $this->like->count(array('like_cid' => $collect['collect_id'])); 
+				$collects[$i] = $collect;
+			}
+			$this->data['collects'] = $collects;
+			echo $this->load->view('home_feed_list', $this->data, true);
+		}else{
+			$this->load->view('home_feed', $this->data);
 		}
-		$this->data['collects'] = $collects;
-		$this->load->view('home', $this->data);
+		
 	}
 
 	// --------------------------------------------------------------------
@@ -144,6 +149,7 @@ class User extends ZG_Controller {
 	{
 		$user = $this->_personal_top_data($user_login_name);
 		$this->data['collects'] = $this->collect->find_by_uid($user['user_id'], $this->page);
+		$this->data['collect_count'] = $this->collect->count(array('collect_user_id' => $user['user_id']));
 		$this->load->view('personal', $this->data);
 	}
 	
@@ -161,6 +167,7 @@ class User extends ZG_Controller {
 	{
 		$user = $this->_personal_top_data($user_login_name);
 		$this->data['followers'] = $this->ufollow->get_following_with_user($user['user_id'], $this->page);
+		$this->data['followers_count'] = $this->ufollow->count(array('ufollow_who' => $user['user_id']));
 		$this->load->view('personal_follower', $this->data);
 	}
 
@@ -178,6 +185,7 @@ class User extends ZG_Controller {
 	{
 		$user = $this->_personal_top_data($user_login_name);
 		$this->data['followers'] = $this->ufollow->get_followers_with_user($user['user_id'], $this->page);
+		$this->data['followers_count'] = $this->ufollow->count(array('ufollow_whom' => $user['user_id']));
 		$this->load->view('personal_follower', $this->data);
 	}
 
@@ -195,6 +203,7 @@ class User extends ZG_Controller {
 	{
 		$user = $this->get_user_by_login_name($user_login_name);
 		if($user){
+			$this->load->library('pagination');
 			$this->load->model('ufollow_model', 'ufollow');
 			$this->load->model('collect_model', 'collect');
 			$this->data['user']            = $user;
@@ -352,12 +361,15 @@ class User extends ZG_Controller {
 			$this->session->set_userdata(SESSION_USER, $user);
 			redirect('/home');
 		}else{
+			if($this->session->flashdata('warning')){
+				$this->message_warn('您使用的用户名已存在，请换一个！再试试');
+			}
 			$this->load->view('signup', $this->data);
 		}		
 	}
 
 	// --------------------------------------------------------------------
-
+	
 	/**
 	 * ---------------------------
 	 * 用户退出账号
@@ -368,10 +380,69 @@ class User extends ZG_Controller {
 	 */
 	public function logout()
 	{
-		$this->session->unset_userdata(SESSION_USER);
+		$this->session->sess_destroy();
 		redirect('/');
 	}
 
 	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 个人设置
+	 * ---------------------------
+	 *
+	 * @link /settings/profile
+	 * @return void
+	 */
+	public function settings_profile()
+	{
+		if($this->is_post()){
+			$user = $_POST;
+			$user['user_lastupdate_time'] = time();
+			$this->user->update_by_id($this->sess_user['user_id'], $user);
+			$this->session->set_userdata(SESSION_USER, array_merge($this->sess_user,$user));
+			redirect('/settings/profile');
+			var_dump();
+		}else{
+			$this->load->view('setting_profile', $this->data);
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ---------------------------
+	 * 修改密码
+	 * ---------------------------
+	 *
+	 * @link /settings/password
+	 * @return void
+	 */
+	public function settings_password()
+	{
+		$this->load->view('settings_password');
+	}
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * ---------------------------
+	 * 社区绑定
+	 * ---------------------------
+	 *
+	 * @link /settings/connections
+	 * @return void
+	 */
+	public function settings_connections()
+	{
+		$this->load->view('settings_connections', $this->data);
+	}
+
+	// --------------------------------------------------------------------
+
+	public function apply()
+	{
+		$this->load->view('apply');
+	}
 
 }

@@ -26,6 +26,14 @@ class OAuth2_Provider_Weibo extends OAuth2_Provider
 {
 
 	/**
+	 * 第三方来源名称 - 新浪微博（weibo）
+	 */
+	public $source = AUTH_SOURCE_NAME_WEIBO;
+	/**
+	 * @var 第三方来源代号
+	 */
+	public $source_code = AUTH_SOURCE_WEIBO; 
+	/**
 	 * @var  string  the method to use when requesting tokens
 	 */
 	public $method = 'POST';
@@ -37,6 +45,10 @@ class OAuth2_Provider_Weibo extends OAuth2_Provider
 	 * @var   return data
 	 */
 	public $format = 'json';
+
+	public $scope = 'email,follow_app_official_microblog';//friendships_groups_read,friendships_groups_write,statuses_to_me_read,
+
+
 
 	// --------------------------------------------------------------------
 
@@ -120,12 +132,38 @@ class OAuth2_Provider_Weibo extends OAuth2_Provider
 	 * @param 	uid 需要查询的用户ID。 
 	 * @return 	用户详细信息数组
 	 */
-	public function get_user($uid)
+	public function get_user($uid, $is_email = true)
 	{
 		$params        = $this->_req_before('users/show');
 		$params['uid'] = $uid;
-		return $this->get($params);
+		$user_info = $this->get($params);
+		// if($is_email){
+		// 	$user_info['email'] = $this->get_user_email();
+		// }
+		return $user_info;
 	}
+
+	// --------------------------------------------------------------------
+
+	
+	/**
+	 * -----------------------------
+	 * 如果用户授权了 scope：email 
+	 *  我们奖可以获取用户的email地址
+ 	 * -----------------------------
+ 	 * - HTTP请求方式 GET
+	 * 
+	 * @link 	http://open.weibo.com/wiki/2/account/profile/email
+	 * @return string	用户邮件地址
+	 */
+	public function get_user_email()
+	{
+		$params = $this->_req_before('account/profile/email');
+		$result = $this->get($params);
+		var_dump($result);
+		return $result['email'];
+	}
+
 
 	// --------------------------------------------------------------------
 

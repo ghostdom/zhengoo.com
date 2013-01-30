@@ -14,6 +14,15 @@ define('PAGE_STATE_UNREAD', 'unread');		// 页面状态: 未读
 
 class OAuth2_Provider_Pocket extends OAuth2_Provider 
 {
+	/**
+	 * @var 第三方来源名称 - Pocket （稍后阅读）
+	 */
+	public $source 		= AUTH_SOURCE_NAME_POCKET;
+
+	/**
+	 * @var 第三方来源代号 - Pocket
+	 */
+	public $source_code = AUTH_SOURCE_POCKET; 
 
 	/**
 	 * @var  string  the method to use when requesting tokens
@@ -22,11 +31,20 @@ class OAuth2_Provider_Pocket extends OAuth2_Provider
 	/**
 	 * @var   host
 	 */
-	public $host = "https://readitlaterlist.com/v2/";
+	public $host = "https://getpocket.com/v3/oauth/";
 	/**
 	 * @var   return data
 	 */
 	public $format = 'json';
+
+	/**
+	 * @var client_id key
+	 */
+	public $app_key = 'consumer_key';
+	/**
+	 * @var 无用户信息接口
+	 */
+	public $is_user_info_api = FALSE;
 
 	// --------------------------------------------------------------------
 
@@ -53,7 +71,7 @@ class OAuth2_Provider_Pocket extends OAuth2_Provider
 	 */
 	public function url_authorize()
 	{
-		return '';
+		return 'https://getpocket.com/auth/authorize';
 	}
 
 	// --------------------------------------------------------------------
@@ -65,7 +83,7 @@ class OAuth2_Provider_Pocket extends OAuth2_Provider
 	 */
 	public function url_access_token()
 	{
-		return '';
+		return 'https://getpocket.com/v3/oauth/authorize';
 	}
 
 	// --------------------------------------------------------------------
@@ -80,18 +98,18 @@ class OAuth2_Provider_Pocket extends OAuth2_Provider
  	 * @param password  用户密码
  	 * @return array    通用请求参数集合
 	 */
-	private function _req_before($method, $user_name, $password)
+	private function _req_before($method)
 	{
 		$this->api_url      = $this->host . $method;
-		$params['apikey']   = $this->client_id;
-		$params['username'] = $user_name;
-		$params['password'] = $password;
+		$params['consumer_key']   = $this->client_id;
+		$params['redirect_uri']   = $this->redirect_uri;
+		
 		return $params;
 	}
 
 	// --------------------------------------------------------------------
 	// ================================
-	// = ========== 账号接口 ========== =
+	// = ========== 授权接口 ========== =
 	// ================================
 
 	/**
@@ -99,14 +117,51 @@ class OAuth2_Provider_Pocket extends OAuth2_Provider
 	 * 用户授权
  	 * -----------------------------
  	 * 
- 	 * @param user_name 用户名
- 	 * @param password  用户密码
  	 * @return void
 	 */
-	public function authorize($user_name, $password)
+	public function authorize()
 	{
-		$params = $this->_req_before('auth', $user_name, $password);
-		$this->post($params);
+		$code = $this->_get_code();
+		$params['request_token'] = $code;
+		$params['redirect_uri'] = $this->redirect_uri.'?code=' . $code;
+		redirect($this->url_authorize().'?'.http_build_query($params));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * -----------------------------
+	 * 获取授权码
+ 	 * -----------------------------
+ 	 * 
+ 	 * @return void
+	 */	
+	private function _get_code()
+	{
+		$this->api_url = 'https://getpocket.com/v3/oauth/request';
+		
+		$params['consumer_key']   = $this->client_id;
+		$params['redirect_uri']   = $this->redirect_uri;
+		parse_str($this->post($params), $code);
+		return $code['code'];
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * -----------------------------
+	 * 换取access_token
+ 	 * -----------------------------
+ 	 * 
+ 	 * @return void
+	 */
+	public function access($code)
+	{
+		$this->api_url = $this->url_access_token();
+		$params['consumer_key'] = $this->client_id;
+		$params['code'] 		= $code;
+		parse_str($this->post($params), $access_token);
+		return $access_token;
 	}
 
 	// --------------------------------------------------------------------

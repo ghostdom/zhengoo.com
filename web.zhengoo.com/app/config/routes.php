@@ -53,6 +53,15 @@ $route[ADMIN_PATH]                   = 'admin/index/login';
 $route[ADMIN_PATH.'/(login|logout)'] = 'admin/index/$1';
 $route[ADMIN_PATH.'/(:any)'] 		 = 'admin/$1';
 
+
+/*
+ | -------------------------------------------------------------------------
+ | API Route
+ | -------------------------------------------------------------------------
+ |
+ */
+ $route['api/(:any)'] = 'api/$1';
+
 /*
  | -------------------------------------------------------------------------
  | Web Route
@@ -60,15 +69,18 @@ $route[ADMIN_PATH.'/(:any)'] 		 = 'admin/$1';
  |
  */
 $route['(login|signup|logout|m_login)']            = 'user/$1'; 					
-$route['(weibo|qq|taobao|pocket|diandian|weixin)'] = 'authorize/auth/$1';
-$route['tools']                                    = 'main/tools';
-$route['home']                                     = 'user/home';
+$route['(weibo|qq|renren|pocket|diandian|evernote|mknote|douban)'] 	   = 'authorize/auth/$1';
+$route['(tools|message)']                          = 'main/$1';
+$route['(home|apply)']                             = 'user/$1';
 $route['discover']                                 = 'main/discover/staff-picks';
+
 
 $route['list/(:any)']                              = 'lists/$1';
 $route['app/(:any)']                               = 'app/$1';
 $route['collect/(:any)']                           = 'collect/$1';
 $route['discover/(staff-picks|popular|recent)']    = 'main/discover/$1';
+$route['settings/(profile|password|connections)']  = 'user/settings_$1';
+$route['settings/connections/unbind'] 			   = 'authorize/remove_bind';
 
 $route['follow/(:any)/(:any)']                     = 'lists/follow/$1/$2';
 $route['follow/(:any)']                            = 'user/follow/$1';

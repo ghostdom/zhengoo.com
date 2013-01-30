@@ -23,6 +23,15 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 {
 
 	/**
+	 * @var 第三方来源名称 - 点点网（diandian）
+	 */
+	public $source 		= AUTH_SOURCE_NAME_DIANDIAN;
+
+	/**
+	 * @var 第三方来源代号
+	 */
+	public $source_code = AUTH_SOURCE_DIANDIAN; 
+	/**
 	 * @var  string  the method to use when requesting tokens
 	 */
 	public $method = 'POST';
@@ -35,9 +44,13 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 	 */
 	public $format = 'json';
 	/**
-	 *
+	 * @var 权限
 	 */
 	public $scope = 'read,write';
+	/**
+	 *
+	 */
+	public $get_user_info_param = 'auth_access_token';
 
 	// --------------------------------------------------------------------
 
@@ -137,6 +150,11 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 		return $params;
 	}
 
+	private function _result($data)
+	{
+		return $data['response'];
+	}
+
 	// --------------------------------------------------------------------
 	// ================================
 	// = ========== 用户接口 ========== =
@@ -159,7 +177,7 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
 			$params['limit']  = $this->page_count;
 			$params['offset'] = ($page - 1);
 		}
-		return $this->get($params);
+		return $this->_result($this->get($params));
 	}
 
 	// --------------------------------------------------------------------
@@ -173,8 +191,9 @@ class OAuth2_Provider_DianDian extends OAuth2_Provider
  	 * @link http://doc.diandian.com/api/userinfo/
  	 * @return array    用户账号相关信息集合
 	 */
-	public function get_user_info()
+	public function get_user($access_token)
 	{
+		$this->access_token = $access_token;
 		return $this->_get_user('user/info');
 	}
 

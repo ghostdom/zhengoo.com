@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>珍果网</title>
+	<title>收录到珍果网</title>
 	<script type="text/javascript" src="<?=lib_url()?>/js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="<?=lib_url()?>/js/jquery.form.js"></script>
 	<style type="text/css">

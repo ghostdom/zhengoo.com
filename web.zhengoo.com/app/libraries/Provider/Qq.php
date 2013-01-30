@@ -11,6 +11,14 @@
 class OAuth2_Provider_Qq extends OAuth2_Provider 
 {
 	/**
+	 * @var 第三方来源名称 - 腾讯QQ （qq）
+	 */
+	public $source 		= AUTH_SOURCE_NAME_QQ;
+	/**
+	 * @var 第三方来源代号
+	 */
+	public $source_code = AUTH_SOURCE_QQ; 
+	/**
 	 * @var  string  the method to use when requesting tokens
 	 */
 	public $method = 'GET';
@@ -115,6 +123,7 @@ class OAuth2_Provider_Qq extends OAuth2_Provider
 		$this->access_token = $access_token;
 		$params = $this->_req_before('oauth2.0/me');
 		preg_match('/{.*}/', $this->get($params), $result);
+		// $this->_logger->info($this->get($params));
 		$result = json_decode($result[0], TRUE);
 		return $result['openid'];
 	}

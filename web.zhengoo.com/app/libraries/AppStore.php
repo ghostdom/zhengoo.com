@@ -7,7 +7,7 @@
  |
  |
 */
-class ZG_AppStore {
+class ZG_appstore {
 	/*
      |-----------------
      | ci 对象

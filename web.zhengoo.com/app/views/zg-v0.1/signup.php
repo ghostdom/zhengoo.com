@@ -43,9 +43,9 @@
 							<li></li>
 						</ul>
 	    			</div>
-	    			<label class=" input checkbox inline">
+	    			<!-- <label class=" input checkbox inline">
 	    				<input type="checkbox" name=""/> <span class="muted">告诉我的朋友们，我来珍果了。</span>
-	    			</label>
+	    			</label> -->
 	    			<div class="actions clearfix">
 	   					 <input type="submit" class="btn btn-green" value="完成">
 					</div>

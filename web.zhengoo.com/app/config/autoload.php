@@ -80,7 +80,7 @@ $autoload['helper'] = array('url', 'app', 'auth');
 |
 */
 
-$autoload['config'] = array('web_default');
+$autoload['config'] = array('web_default', 'seo');
 
 
 /*

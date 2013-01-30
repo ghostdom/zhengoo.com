@@ -20,13 +20,13 @@
 	$config['last_tag_close']       = '</li>';
 	
 	
-	$config['prev_link']            = '&lt;';
+	$config['prev_link']            = '← 上一页';
 	$config['prev_tag_open']        = '<li>';
 	$config['prev_tag_close']       = '</li>';
 	$config['prev_first_tag_open']  = '<li class="disabled"><a href="javascript:;">';
 	$config['prev_first_tag_close'] = '</a></li>';
 	
-	$config['next_link']            = '&gt;';
+	$config['next_link']            = '下一页 →';
 	$config['next_tag_open']        = '<li>';
 	$config['next_tag_close']       = '</li>';
 	$config['next_last_tag_open']   = '<li class="disabled"><a href="javascript:;">';

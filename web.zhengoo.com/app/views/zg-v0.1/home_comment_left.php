@@ -70,9 +70,21 @@
 		</li>
 		<?php 
 				}
-			} 
+		
 		?>
 	</ul>
+	<?php 
+		$this->load->view('common/pagination' , array('base_url' => uri_string(), 'total_rows' => $count)); 
+		} else {
 
-	<?php $this->load->view('common/pagination' , array('base_url' => uri_string(), 'total_rows' => $count)); ?>
+	?>
+	<div class="no-datas no-datas-comment">
+        <p>
+        	<strong>未发现评论信息</strong>
+         	<small>当你在浏览朋友分享的应用时， 您可以多和他们聊聊您对应用的看法和意见，也许会让我们对该应用更加了解哦！~</small>	
+        </p>
+    </div>
+	<?php 
+		}
+	?>
 </div>

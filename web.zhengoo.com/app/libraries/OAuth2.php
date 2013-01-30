@@ -1,8 +1,8 @@
 <?php
 	
-include('Exception.php');
-include('Token.php');
-include('Provider.php');
+include('exception.php');
+include('token.php');
+include('provider.php');
 
 /**
  * OAuth2.0

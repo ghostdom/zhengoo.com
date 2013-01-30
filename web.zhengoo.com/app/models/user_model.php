@@ -51,8 +51,32 @@ class User_Model extends ZG_Model {
 
 	// --------------------------------------------------------------------
 
+
 	function get_hot_user($page = 1, $page_num = 25, $is_collects = TRUE)
 	{
 		return $this->_find_by_status(USER_STATUS_HOT, $page, $page_num, TRUE);
 	}
+
+	// --------------------------------------------------------------------
+
+	function add_user_auth($user_id, $add_auth_source, $cur_auth_srouce = NULL)
+	{
+		$user_oauths = $cur_auth_srouce ? $cur_auth_srouce . '|' . $add_auth_source : $add_auth_source;
+		return $this->update_by_id($user_id, array('user_oauths' => $user_oauths));
+	}
+
+	// --------------------------------------------------------------------
+
+	function remove_user_auth($user_id, $remove_auth_source, $cur_auth_srouce = NULL)
+	{
+		if(strpos($cur_auth_srouce, '|')){
+			$re = stripos($cur_auth_srouce, $remove_auth_source) == 0 && stripos($cur_auth_srouce, "|") == count($remove_auth_source) ? $remove_auth_source.'|' : '|'.$remove_auth_source;
+			$user_oauths = str_replace($re, '', $cur_auth_srouce);
+		}else{
+			$user_oauths = str_replace($remove_auth_source, '', $cur_auth_srouce);
+		}
+		return $this->update_by_id($user_id, array('user_oauths' => $user_oauths));
+	}
+
+
 }

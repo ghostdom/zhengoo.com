@@ -18,10 +18,8 @@
 					<div class="profile clearfix span12">
 						<?php $this->load->view('personal_top'); ?>
 						<?php $this->load->view('personal_people_widget.php')?>
-						<div class="load-more">
-    						<a class="load" href="#load-more" name="load-more">加载更多...</a>
-						</div>
 					</div>
+					<?php  $this->load->view('common/pagination' , array('base_url' => uri_string(), 'total_rows' => $followers_count)); ?>
 				</div>
 			</div>
 		</div>

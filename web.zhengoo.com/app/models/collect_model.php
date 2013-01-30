@@ -36,7 +36,7 @@ class Collect_Model extends ZG_Model {
 	 * @param list_id		列表编号
 	 * @param page 			页码
 	 */
-	function find_by_group_with_app($group_id, $page = 1, $page_num = 25)
+	function find_by_group_with_app($group_id, $page = 1, $page_num = DEFAULT_PAGE_NUM)
 	{
 		$this->db->where(array('collect_group_id' => $group_id));
 		$this->db->join('app', 'app.app_id = collect.collect_app_id');
@@ -79,7 +79,7 @@ class Collect_Model extends ZG_Model {
 	 * @param page_num 	分页数量
 	 * @return array 	
 	 */
-	function find_by_ufollow($user_id, $page = 1, $page_num = 40)
+	function find_by_ufollow($user_id, $page = 1, $page_num = DEFAULT_PAGE_NUM)
 	{
 		$this->db->join('user', 'collect_user_id = user.user_id');
 		$this->db->select('collect.*, user.user_id, user.user_login_name, user.user_nice_name, user.user_avatar');

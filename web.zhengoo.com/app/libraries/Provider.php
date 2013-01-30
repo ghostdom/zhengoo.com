@@ -11,6 +11,9 @@
 
 abstract class OAuth2_Provider
 {
+	/**
+	 * @var CI
+	 */
 	protected $_ci;
 	/**
 	 * @var  string  provider name
@@ -33,7 +36,7 @@ abstract class OAuth2_Provider
 	protected $params = array();
 
 	/**
-	 *
+	 * @var http header
 	 */
 	protected $headers = array();
 
@@ -81,9 +84,25 @@ abstract class OAuth2_Provider
 	 */
 	protected static $boundary = '';
 	/**
-	 *
+	 * @var app key 
 	 */
 	protected $app_key = 'client_id';
+	/**
+	 * @var 是否有用户信息接口
+	 */
+	public $is_user_info_api = TRUE;
+	/**
+	 * @var 
+	 */
+	public $get_user_info_param = 'auth_user';
+	/**
+	 * @var
+	 */
+	public $authorize_params = array();
+	/**
+	 * @var logger
+	 */
+	protected $_logger;
 
 	/**
 	 * Overloads default class properties from the options.
@@ -114,6 +133,8 @@ abstract class OAuth2_Provider
 		isset($options['scope']) and $this->scope               = $options['scope'];
 		isset($options['access_token']) and $this->access_token = $options['access_token'];
 		$this->redirect_uri = site_url(get_instance()->uri->uri_string());
+
+		$this->_logger = $this->_logger = Logger::getLogger('Provider: ' . get_class($this));
 
 	}
 
@@ -163,9 +184,8 @@ abstract class OAuth2_Provider
 			'state' 			=> $state,
 			'scope'				=> is_array($this->scope) ? implode($this->scope_seperator, $this->scope) : $this->scope,
 			'response_type' 	=> 'code',
-			'approval_prompt'   => 'force' // - google force-recheck
+			// 'approval_prompt'   => 'force'
 		);
-		
 		redirect($this->url_authorize().'?'.http_build_query($params));
 	}
 
@@ -181,7 +201,7 @@ abstract class OAuth2_Provider
 			'client_id' 	=> $this->client_id,
 			'client_secret' => $this->client_secret,
 			'grant_type' 	=> isset($options['grant_type']) ? $options['grant_type'] : 'authorization_code',
-			'scope'			=> isset($options['scope']) ? $options['scope'] : '',
+			// 'scope'			=> isset($options['scope']) ? $options['scope'] : '',
 		);
 
 		switch ($params['grant_type'])
@@ -203,7 +223,9 @@ abstract class OAuth2_Provider
 
 		$response = null;	
 		$url = $this->url_access_token();
-
+		$this->_ci->load->library('curl');
+		if($this->headers)
+			$this->_ci->curl->option(CURLOPT_HTTPHEADER, $this->headers);
 		switch ($this->method)
 		{
 			case 'GET':
@@ -217,7 +239,7 @@ abstract class OAuth2_Provider
 			break;
 
 			case 'POST':
-				$this->_ci->load->library('curl');
+				
 
 				$this->_ci->curl
 					->create($url)
@@ -268,12 +290,14 @@ abstract class OAuth2_Provider
 				break;
 		}
 
+		// var_dump($response);
 		$result = json_decode($response, true);
+
+	
 		if(empty($result)){
 			return $response;
 		}
 		return $result;
-	
 	} 
 
 	/**

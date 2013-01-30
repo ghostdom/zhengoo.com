@@ -38,7 +38,7 @@
         <?php 
           foreach ($followers as $follower) {
         ?>
-        <li><a href="<?=$follower['user_login_name']?>" title="<?=$follower['user_nice_name']?>">
+        <li><a href="/<?=$follower['user_login_name']?>" title="<?=$follower['user_nice_name']?>">
             <img data-placement="top" data-original-title="<?=$follower['user_nice_name']?>" class="avatar" title="<?=$follower['user_nice_name']?>" src="<?=$follower['user_avatar']?>"></a>
         </li>
         <?php } ?>
