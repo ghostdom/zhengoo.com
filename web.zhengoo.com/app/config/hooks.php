@@ -22,6 +22,7 @@ $hook['post_controller_constructor'][] = array(
                                     'user/m_login/',
                                     'user/signup/',
                                     'main/message/',
+                                    'cgi/weixin/',
                                		
                                     // 'main/welcome/',
                                     // 'main/discover/',
@@ -50,6 +51,7 @@ $hook['post_controller'] = array(
                                          * 新浪微博允许进入的用户id
                                          */
                                         1 => array(
+                                            '2667843313',//珍果
                                             '1704348731',//自己
                                             '2310207652',//爱尚你的人
                                             '1693350313',//王玲科

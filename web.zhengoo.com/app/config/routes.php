@@ -74,6 +74,7 @@ $route['(tools|message)']                          = 'main/$1';
 $route['(home|apply)']                             = 'user/$1';
 $route['discover']                                 = 'main/discover/staff-picks';
 
+$route['cgi/(weixin)'] 						   	   = 'cgi/$1';
 
 $route['list/(:any)']                              = 'lists/$1';
 $route['app/(:any)']                               = 'app/$1';

@@ -13,7 +13,7 @@
             		@珍果网
             	</a>
 	            <div style="vertical-align:bottom">
-	                <div data-layout="button_count" data-show-faces="false" data-width="100" data-send="false" data-href="http://facebook.com/kipptapp" class="fb-like"></div>
+	               <script src="http://s22.cnzz.com/stat.php?id=5000309&web_id=5000309&show=pic" language="JavaScript"></script>
 	            </div>
         	</div>
         </p>
